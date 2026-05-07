@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroDirect Uz</title>
+  <style>
+    :root{
+      --bg:#f4f7f5;
+      --card:#ffffff;
+      --text:#102018;
+      --muted:#66756d;
+      --green:#15803d;
+      --green2:#22c55e;
+      --line:#e5ece7;
+      --shadow:0 14px 40px rgba(16,32,24,.08);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:linear-gradient(180deg,#eef6f0 0%, var(--bg) 30%, #f8faf9 100%);
+      color:var(--text);
+    }
+    a{text-decoration:none;color:inherit}
+    .container{max-width:1200px;margin:0 auto;padding:20px}
+    .nav{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(12px);
+      background:rgba(255,255,255,.82);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      max-width:1200px;margin:0 auto;padding:14px 20px;
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:20px}
+    .logo{
+      width:44px;height:44px;border-radius:16px;
+      background:linear-gradient(135deg,var(--green),var(--green2));
+      display:grid;place-items:center;color:#fff;font-weight:900;
+      box-shadow:var(--shadow);
+    }
+    .nav-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      border:none;cursor:pointer;border-radius:16px;
+      padding:12px 16px;font-weight:700;
+      transition:.2s ease;
+      background:#fff;border:1px solid var(--line);
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;border:none}
+    .btn-dark{background:#0f172a;color:#fff;border:none}
+    .hero{
+      display:grid;grid-template-columns:1.3fr .7fr;gap:20px;
+      margin-top:24px;
+    }
+    .panel{
+      background:var(--card);border:1px solid var(--line);
+      border-radius:var(--radius);box-shadow:var(--shadow);
+    }
+    .hero-main{
+      padding:30px;
+      background:linear-gradient(135deg,#14532d 0%, #16a34a 55%, #22c55e 100%);
+      color:#fff;
+      min-height:320px;
+      display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      width:max-content;
+      padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16);
+      font-size:13px;font-weight:700;
+    }
+    h1{margin:14px 0 12px;font-size:54px;line-height:1.02;letter-spacing:-1.5px}
+    .lead{font-size:18px;max-width:780px;line-height:1.6;color:#eefdf2}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .hero-side{padding:22px}
+    .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .stat{
+      padding:16px;border-radius:18px;background:#f8faf9;border:1px solid var(--line)
+    }
+    .stat .value{font-size:24px;font-weight:900}
+    .stat .label{color:var(--muted);font-size:13px;margin-top:4px}
+    .section{margin-top:22px}
+    .section-head{
+      display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .section-title{font-size:26px;font-weight:900;margin:0}
+    .section-sub{margin:6px 0 0;color:var(--muted)}
+    .controls{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center
+    }
+    input, select, textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:12px 14px;
+      border-radius:16px;
+      outline:none;
+      font:inherit;
+    }
+    input:focus, select:focus, textarea:focus{border-color:#86efac; box-shadow:0 0 0 4px rgba(34,197,94,.12)}
+    .search{min-width:280px;max-width:420px}
+    .products{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:16px
+    }
+    .card{
+      padding:18px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)
+    }
+    .card h3{margin:0;font-size:22px}
+    .card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .pill{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:7px 10px;border-radius:999px;
+      background:#ecfdf5;color:#166534;font-size:12px;font-weight:800;
+    }
+    .pill.gray{background:#f1f5f9;color:#334155}
+    .meta{margin-top:10px;color:var(--muted);font-size:14px;line-height:1.6}
+    .price{
+      margin-top:14px;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      padding:14px;border-radius:18px;background:#f8faf9;border:1px solid var(--line)
+    }
+    .price strong{font-size:20px}
+    .rating{display:flex;align-items:center;gap:6px;font-weight:800}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .row .btn{flex:1}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .list{
+      display:flex;flex-direction:column;gap:12px
+    }
+    .item{
+      display:flex;justify-content:space-between;gap:12px;align-items:center;
+      padding:14px;border-radius:18px;background:#f8faf9;border:1px solid var(--line)
+    }
+    .item small{color:var(--muted)}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap}
+    .tab{
+      padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:700
+    }
+    .tab.active{background:#14532d;color:#fff;border-color:#14532d}
+    .hidden{display:none}
+    .footer{
+      margin:30px 0 12px;color:var(--muted);font-size:13px;text-align:center
+    }
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(2,6,23,.55);
+      display:none;align-items:center;justify-content:center;padding:20px;z-index:50;
+    }
+    .modal{
+      width:min(680px,100%);
+      background:#fff;border-radius:24px;border:1px solid var(--line);
+      box-shadow:0 24px 80px rgba(0,0,0,.25);padding:20px;
+      max-height:90vh;overflow:auto;
+    }
+    .modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+    .modal h2{margin:0}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .full{grid-column:1/-1}
+    .xbtn{
+      width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:18px
+    }
+    .check{display:flex;gap:8px;align-items:center;font-size:14px}
+    .small{font-size:13px;color:var(--muted)}
+    @media (max-width: 1024px){
+      .hero,.grid2,.products{grid-template-columns:1fr}
+      h1{font-size:42px}
+      .search{min-width:100%;max-width:none}
+      .form-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo">AD</div>
+        <div>
+          <div>AgroDirect Uz</div>
+          <div class="small">Verified agro platform</div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn" onclick="openModal('productModal')">Mahsulot qo‘shish</button>
+        <button class="btn btn-dark" onclick="scrollToSection('admin')">Admin panel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="hero">
+      <div class="panel hero-main">
+        <div>
+          <div class="badge">✓ Tekshirilgan sellerlar • ✓ Ishonchli mahsulot • ✓ Tez buyurtma</div>
+          <h1>Dehqon va xaridorni bitta platformada bog‘laymiz.</h1>
+          <div class="lead">
+            AgroDirect Uz — mahsulot tekshiruvi, seller verification, reyting, buyurtma so‘rovi va logistika uchun yaratilgan agro-marketplace prototipi.
+          </div>
+        </div>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="scrollToSection('market')">Marketni ko‘rish</button>
+          <button class="btn" onclick="openModal('orderModal')">Buyurtma berish</button>
+        </div>
+      </div>
+
+      <div class="panel hero-side">
+        <div class="stat-grid">
+          <div class="stat"><div class="value" id="sellerCount">0</div><div class="label">Sellerlar</div></div>
+          <div class="stat"><div class="value" id="productCount">0</div><div class="label">Mahsulotlar</div></div>
+          <div class="stat"><div class="value" id="verifiedCount">0</div><div class="label">Verified</div></div>
+          <div class="stat"><div class="value" id="orderCount">0</div><div class="label">Orderlar</div></div>
+        </div>
+        <div style="margin-top:16px;padding:16px;border-radius:18px;background:#f8faf9;border:1px solid var(--line)">
+          <strong>Platforma kuchi:</strong>
+          <div class="small" style="margin-top:8px;line-height:1.6">
+            verified badge, narx shaffofligi, kategoriya filter, admin tasdiqlash, reyting va order flow.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="market">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Mahsulot bozori</h2>
+          <p class="section-sub">Qidirish, filter qilish, sellerni tekshirish va buyurtma berish.</p>
+        </div>
+        <div class="controls">
+          <input id="search" class="search" placeholder="Mahsulot, seller yoki hudud qidiring..." oninput="renderProducts()" />
+          <select id="categoryFilter" onchange="renderProducts()" style="min-width:180px">
+            <option value="All">Barcha kategoriyalar</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="products" id="products"></div>
+    </section>
+
+    <section class="section grid2">
+      <div class="panel" style="padding:18px">
+        <div class="section-head" style="margin-bottom:8px">
+          <div>
+            <h2 class="section-title" style="font-size:22px">Qanday ishlaydi</h2>
+            <p class="section-sub">MVP flow juda sodda bo‘lishi kerak.</p>
+          </div>
+        </div>
+        <div class="list">
+          <div class="item"><div><strong>1. Seller ro‘yxatdan o‘tadi</strong><br><small>Telefon, hudud va profil to‘ldiriladi.</small></div><span class="pill">Step 1</span></div>
+          <div class="item"><div><strong>2. Mahsulot qo‘shadi</strong><br><small>Surat, narx, miqdor va kategoriya.</small></div><span class="pill">Step 2</span></div>
+          <div class="item"><div><strong>3. Admin tekshiradi</strong><br><small>Verified badge qo‘yiladi.</small></div><span class="pill">Step 3</span></div>
+          <div class="item"><div><strong>4. Xaridor order beradi</strong><br><small>Buyurtma yoki bog‘lanish.</small></div><span class="pill">Step 4</span></div>
+          <div class="item"><div><strong>5. Reyting qo‘yiladi</strong><br><small>Ishonch tizimi kuchayadi.</small></div><span class="pill">Step 5</span></div>
+        </div>
+      </div>
+
+      <div class="panel" style="padding:18px" id="admin">
+        <div class="section-head" style="margin-bottom:8px">
+          <div>
+            <h2 class="section-title" style="font-size:22px">Admin panel</h2>
+            <p class="section-sub">Tasdiqlash queue va monitoring.</p>
+          </div>
+        </div>
+        <div class="list" id="adminQueue"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel" style="padding:18px">
+        <div class="section-head" style="margin-bottom:8px">
+          <div>
+            <h2 class="section-title" style="font-size:22px">Orderlar va feedback</h2>
+            <p class="section-sub">Barcha buyurtmalar local storage’da saqlanadi.</p>
+          </div>
+        </div>
+        <div class="list" id="orders"></div>
+      </div>
+    </section>
+
+    <div class="footer">AgroDirect Uz — prototype. Keyin backend, auth, database va real API qo‘shamiz.</div>
+  </div>
+
+  <div class="modal-backdrop" id="productModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h2>Mahsulot qo‘shish</h2>
+        <button class="xbtn" onclick="closeModal('productModal')">×</button>
+      </div>
+      <form id="productForm">
+        <div class="form-grid">
+          <div>
+            <label>Mahsulot nomi</label>
+            <input required name="name" placeholder="Pomidor" />
+          </div>
+          <div>
+            <label>Seller nomi</label>
+            <input required name="seller" placeholder="Nur Agro Farm" />
+          </div>
+          <div>
+            <label>Kategoriya</label>
+            <input required name="category" placeholder="Sabzavot" />
+          </div>
+          <div>
+            <label>Hudud</label>
+            <input required name="region" placeholder="Samarqand" />
+          </div>
+          <div>
+            <label>Narx</label>
+            <input required type="number" name="price" placeholder="8200" />
+          </div>
+          <div>
+            <label>O‘lchov birligi</label>
+            <input required name="unit" placeholder="kg" />
+          </div>
+          <div>
+            <label>Miqdor</label>
+            <input required type="number" name="stock" placeholder="1200" />
+          </div>
+          <div>
+            <label>Reyting</label>
+            <input required type="number" step="0.1" min="1" max="5" name="rating" placeholder="4.8" />
+          </div>
+          <div>
+            <label>Sifat</label>
+            <input required name="quality" placeholder="Premium" />
+          </div>
+          <div>
+            <label>Yetkazish</label>
+            <input required name="delivery" placeholder="24 soat ichida" />
+          </div>
+          <div class="full check">
+            <input type="checkbox" name="verified" id="verified" style="width:auto" />
+            <label for="verified">Verified seller sifatida belgilash</label>
+          </div>
+          <div class="full">
+            <button class="btn btn-primary" style="width:100%" type="submit">Saqlash</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="orderModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h2>Buyurtma berish</h2>
+        <button class="xbtn" onclick="closeModal('orderModal')">×</button>
+      </div>
+      <form id="orderForm">
+        <div class="form-grid">
+          <div>
+            <label>Ism</label>
+            <input required name="buyerName" placeholder="Javohir" />
+          </div>
+          <div>
+            <label>Telefon</label>
+            <input required name="contact" placeholder="+998..." />
+          </div>
+          <div>
+            <label>Mahsulot</label>
+            <input required name="product" placeholder="Pomidor" />
+          </div>
+          <div>
+            <label>Miqdor</label>
+            <input required type="number" name="qty" placeholder="50" />
+          </div>
+          <div class="full">
+            <label>Izoh</label>
+            <textarea name="note" rows="4" placeholder="Qachon kerak, qayerga yetkaziladi..."></textarea>
+          </div>
+          <div class="full">
+            <button class="btn btn-dark" style="width:100%" type="submit">Order yuborish</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const defaultProducts = [
+      { id: 1, name: "Pomidor", category: "Sabzavot", price: 8200, unit: "kg", region: "Samarqand", seller: "Nur Agro Farm", rating: 4.9, verified: true, badge: "Top Seller", stock: 1200, delivery: "24 soat ichida", quality: "Premium" },
+      { id: 2, name: "Kartoshka", category: "Sabzavot", price: 4500, unit: "kg", region: "Jizzax", seller: "Agro Timur", rating: 4.7, verified: true, badge: "Verified Seller", stock: 5000, delivery: "2 kunda", quality: "Standart" },
+      { id: 3, name: "Olma", category: "Meva", price: 11000, unit: "kg", region: "Andijon", seller: "Green Valley", rating: 4.8, verified: true, badge: "Trusted Farmer", stock: 2400, delivery: "Bugun", quality: "Premium" },
+      { id: 4, name: "Tarvuz", category: "Meva", price: 3800, unit: "kg", region: "Xorazm", seller: "Delta Fruits", rating: 4.5, verified: false, badge: "New Seller", stock: 8900, delivery: "3 kunda", quality: "Standart" },
+      { id: 5, name: "Sut", category: "Sut mahsuloti", price: 6500, unit: "litr", region: "Toshkent vil.", seller: "Milk House", rating: 4.6, verified: true, badge: "Fast Response", stock: 800, delivery: "Same day", quality: "Fresh" },
+      { id: 6, name: "Bodring", category: "Sabzavot", price: 7200, unit: "kg", region: "Namangan", seller: "Fergana Fresh", rating: 4.9, verified: true, badge: "Top Seller", stock: 1600, delivery: "24 soat ichida", quality: "Premium" }
+    ];
+
+    const defaultOrders = [
+      { buyerName: "Dilshod", product: "Pomidor", qty: 50, status: "Kutilyapti", note: "Restoran uchun", contact: "+998901112233" },
+      { buyerName: "Madina", product: "Olma", qty: 20, status: "Tasdiqlangan", note: "Do‘kon uchun", contact: "+998931112233" }
+    ];
+
+    const LS_PRODUCTS = "agro_products_v1";
+    const LS_ORDERS = "agro_orders_v1";
+
+    let products = loadData(LS_PRODUCTS, defaultProducts);
+    let orders = loadData(LS_ORDERS, defaultOrders);
+
+    const productEl = document.getElementById("products");
+    const adminQueueEl = document.getElementById("adminQueue");
+    const ordersEl = document.getElementById("orders");
+    const sellerCountEl = document.getElementById("sellerCount");
+    const productCountEl = document.getElementById("productCount");
+    const verifiedCountEl = document.getElementById("verifiedCount");
+    const orderCountEl = document.getElementById("orderCount");
+    const categoryFilterEl = document.getElementById("categoryFilter");
+
+    function loadData(key, fallback){
+      const raw = localStorage.getItem(key);
+      if(!raw) return fallback;
+      try { return JSON.parse(raw); } catch(e) { return fallback; }
+    }
+
+    function saveData(){
+      localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+      localStorage.setItem(LS_ORDERS, JSON.stringify(orders));
+    }
+
+    function money(n){
+      return new Intl.NumberFormat("uz-UZ").format(n);
+    }
+
+    function uniqueCategories(){
+      const cats = ["All", ...new Set(products.map(p => p.category))];
+      categoryFilterEl.innerHTML = cats.map(c => `<option value="${c}">${c === "All" ? "Barcha kategoriyalar" : c}</option>`).join("");
+    }
+
+    function getFilteredProducts(){
+      const q = document.getElementById("search").value.trim().toLowerCase();
+      const cat = categoryFilterEl.value;
+      return products.filter(p => {
+        const text = `${p.name} ${p.category} ${p.region} ${p.seller}`.toLowerCase();
+        const matchQ = text.includes(q);
+        const matchC = cat === "All" || p.category === cat;
+        return matchQ && matchC;
+      });
+    }
+
+    function renderStats(){
+      const sellerCount = new Set(products.map(p => p.seller)).size;
+      const verifiedCount = products.filter(p => p.verified).length;
+      sellerCountEl.textContent = sellerCount;
+      productCountEl.textContent = products.length;
+      verifiedCountEl.textContent = verifiedCount;
+      orderCountEl.textContent = orders.length;
+    }
+
+    function renderProducts(){
+      uniqueCategories();
+      renderStats();
+
+      const filtered = getFilteredProducts();
+      productEl.innerHTML = filtered.map(p => `
+        <div class="card">
+          <div class="card-top">
+            <div>
+              <h3>${p.name}</h3>
+              <div class="meta">${p.category} • ${p.region}</div>
+            </div>
+            <span class="pill ${p.verified ? "" : "gray"}">${p.verified ? "Verified" : "New Seller"}</span>
+          </div>
+
+          <div class="meta" style="margin-top:12px">
+            Seller: <strong>${p.seller}</strong><br/>
+            Sifat: <strong>${p.quality}</strong><br/>
+            Yetkazish: <strong>${p.delivery}</strong>
+          </div>
+
+          <div class="price">
+            <div>
+              <div class="small">Narx</div>
+              <strong>${money(p.price)} so‘m/${p.unit}</strong>
+            </div>
+            <div class="rating">★ ${p.rating}</div>
+          </div>
+
+          <div class="meta">Miqdor: <strong>${p.stock.toLocaleString()}</strong> ${p.unit}</div>
+
+          <div class="row">
+            <button class="btn btn-primary" onclick="selectProduct(${p.id})">Batafsil</button>
+            <button class="btn" onclick="prefillOrder('${p.name}')">Buyurtma</button>
+          </div>
+        </div>
+      `).join("");
+
+      renderAdmin();
+      renderOrders();
+    }
+
+    function renderAdmin(){
+      const unverified = products.filter(p => !p.verified);
+      adminQueueEl.innerHTML = unverified.length ? unverified.map(p => `
+        <div class="item">
+          <div>
+            <strong>${p.seller}</strong><br/>
+            <small>${p.name} • ${p.region} • ${money(p.price)} so‘m/${p.unit}</small>
+          </div>
+          <button class="btn btn-primary" onclick="approveSeller(${p.id})">Approve</button>
+        </div>
+      `).join("") : `
+        <div class="item">
+          <div>
+            <strong>Queue bo‘sh</strong><br/>
+            <small>Hamma sellerlar verified.</small>
+          </div>
+          <span class="pill">OK</span>
+        </div>
+      `;
+    }
+
+    function renderOrders(){
+      ordersEl.innerHTML = orders.length ? orders.map(o => `
+        <div class="item">
+          <div>
+            <strong>${o.buyerName}</strong> — ${o.product} (${o.qty})
+            <br/>
+            <small>${o.contact} • ${o.note || "Izoh yo‘q"}</small>
+          </div>
+          <span class="pill ${o.status === "Tasdiqlangan" ? "" : "gray"}">${o.status}</span>
+        </div>
+      `).join("") : `
+        <div class="item">
+          <div>
+            <strong>Hali order yo‘q</strong><br/>
+            <small>Buyurtmalar shu yerda ko‘rinadi.</small>
+          </div>
+          <span class="pill">Empty</span>
+        </div>
+      `;
+    }
+
+    function selectProduct(id){
+      const p = products.find(x => x.id === id);
+      if(!p) return;
+      alert(
+        `${p.name}\nSeller: ${p.seller}\nHudud: ${p.region}\nNarx: ${money(p.price)} so‘m/${p.unit}\nReyting: ${p.rating}\nVerified: ${p.verified ? "Ha" : "Yo‘q"}`
+      );
+    }
+
+    function prefillOrder(name){
+      openModal("orderModal");
+      document.querySelector("#orderForm [name='product']").value = name;
+    }
+
+    function approveSeller(id){
+      products = products.map(p => p.id === id ? {...p, verified: true, badge: "Verified Seller"} : p);
+      saveData();
+      renderProducts();
+    }
+
+    function openModal(id){
+      document.getElementById(id).style.display = "flex";
+    }
+    function closeModal(id){
+      document.getElementById(id).style.display = "none";
+    }
+
+    document.getElementById("productForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const newProduct = {
+        id: Date.now(),
+        name: fd.get("name"),
+        seller: fd.get("seller"),
+        category: fd.get("category"),
+        region: fd.get("region"),
+        price: Number(fd.get("price")),
+        unit: fd.get("unit"),
+        stock: Number(fd.get("stock")),
+        rating: Number(fd.get("rating")),
+        quality: fd.get("quality"),
+        delivery: fd.get("delivery"),
+        verified: fd.get("verified") === "on",
+        badge: fd.get("verified") === "on" ? "Verified Seller" : "New Seller"
+      };
+      products.unshift(newProduct);
+      saveData();
+      e.target.reset();
+      closeModal("productModal");
+      renderProducts();
+    });
+
+    document.getElementById("orderForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const order = {
+        buyerName: fd.get("buyerName"),
+        contact: fd.get("contact"),
+        product: fd.get("product"),
+        qty: Number(fd.get("qty")),
+        note: fd.get("note"),
+        status: "Kutilyapti"
+      };
+      orders.unshift(order);
+      saveData();
+      e.target.reset();
+      closeModal("orderModal");
+      renderProducts();
+    });
+
+    function scrollToSection(id){
+      document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if(e.key === "Escape"){
+        closeModal("productModal");
+        closeModal("orderModal");
+      }
+    });
+
+    document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+      backdrop.addEventListener("click", (e) => {
+        if(e.target === backdrop) backdrop.style.display = "none";
+      });
+    });
+
+    renderProducts();
+  </script>
+</body>
+</html>
