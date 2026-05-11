@@ -1,539 +1,416 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="uz" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgroDirect Uz — Ishonchli Agro Platforma</title>
-  <meta name="description" content="AgroDirect Uz — dehqon va xaridorni verified marketplace orqali bog‘laydigan agro platforma." />
   <meta name="theme-color" content="#15803d" />
+  <meta name="description" content="AgroDirect Uz — dehqon, xaridor va sellerni birlashtiruvchi premium agro marketplace." />
+  <title>AgroDirect Uz — Premium Agro Marketplace</title>
   <style>
     :root{
-      --bg:#f4f8f5;
-      --card:#ffffff;
+      --bg:#f4faf5;
+      --bg-2:#edf7ef;
+      --surface:rgba(255,255,255,.78);
+      --surface-2:#ffffff;
+      --surface-3:#f8fcf9;
       --text:#0f172a;
       --muted:#64748b;
-      --line:#e6ece8;
-      --green:#15803d;
-      --green2:#22c55e;
-      --green3:#dcfce7;
-      --dark:#0f172a;
-      --shadow:0 18px 50px rgba(16,32,24,.08);
-      --shadow2:0 10px 30px rgba(21,128,61,.12);
-      --radius:24px;
-      --radius2:18px;
-      --max:1200px;
+      --line:rgba(148,163,184,.18);
+      --line-strong:rgba(15,23,42,.08);
+      --brand:#15803d;
+      --brand-2:#22c55e;
+      --brand-3:#86efac;
+      --dark:#0b1220;
+      --shadow:0 18px 60px rgba(16,32,24,.10);
+      --shadow-soft:0 10px 35px rgba(21,128,61,.10);
+      --radius:28px;
+      --radius-lg:36px;
+      --max:1280px;
+    }
+    [data-theme="dark"]{
+      --bg:#07111a;
+      --bg-2:#0b1723;
+      --surface:rgba(15,23,42,.68);
+      --surface-2:#101a29;
+      --surface-3:#0d1522;
+      --text:#e5eefb;
+      --muted:#9fb1c8;
+      --line:rgba(148,163,184,.12);
+      --line-strong:rgba(148,163,184,.14);
+      --shadow:0 18px 70px rgba(0,0,0,.28);
+      --shadow-soft:0 10px 32px rgba(34,197,94,.09);
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
       margin:0;
+      min-height:100vh;
       font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at top left, rgba(34,197,94,.18), transparent 26%),
-        radial-gradient(circle at top right, rgba(21,128,61,.12), transparent 22%),
-        linear-gradient(180deg,#eef7f1 0%, #f7faf8 26%, #f9fbfa 100%);
-      min-height:100vh;
+        radial-gradient(circle at 8% 10%, rgba(34,197,94,.22), transparent 22%),
+        radial-gradient(circle at 90% 8%, rgba(21,128,61,.18), transparent 24%),
+        radial-gradient(circle at 88% 88%, rgba(34,197,94,.10), transparent 28%),
+        linear-gradient(180deg,var(--bg-2),var(--bg));
+      overflow-x:hidden;
     }
     a{text-decoration:none;color:inherit}
     button,input,select,textarea{font:inherit}
+    img{max-width:100%;display:block}
+
+    .bg-blob{
+      position:fixed;pointer-events:none;z-index:-1;
+      width:540px;height:540px;border-radius:50%;filter:blur(90px);opacity:.26;
+    }
+    .blob-a{top:-150px;left:-130px;background:#22c55e}
+    .blob-b{top:120px;right:-190px;background:#15803d}
+    .blob-c{bottom:-170px;left:16%;background:#86efac}
+
     .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+    .section{padding:26px 0}
+    .section-title{font-size:clamp(26px,3.5vw,42px);line-height:1.05;margin:0 0 12px;letter-spacing:-.04em}
+    .section-sub{margin:0;color:var(--muted);line-height:1.72;max-width:880px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+    .title-wrap{max-width:920px}
+
     .nav{
-      position:sticky;top:0;z-index:60;
-      backdrop-filter:blur(16px);
-      background:rgba(255,255,255,.84);
-      border-bottom:1px solid rgba(230,236,232,.9);
+      position:sticky;top:0;z-index:90;
+      backdrop-filter:blur(18px);
+      background:color-mix(in srgb, var(--surface) 86%, transparent);
+      border-bottom:1px solid var(--line);
     }
-    .nav-inner{
-      min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px
-    }
-    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:-.02em;min-width:0}
+    .nav-inner{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
     .logo{
-      width:48px;height:48px;border-radius:16px;
-      display:grid;place-items:center;
-      color:#fff;
-      background:linear-gradient(135deg,var(--green),var(--green2));
-      box-shadow:0 12px 30px rgba(21,128,61,.22);
-      flex:none;
-      font-size:18px;
+      width:48px;height:48px;border-radius:18px;flex:none;
+      display:grid;place-items:center;color:#fff;font-weight:900;font-size:19px;
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      box-shadow:0 14px 34px rgba(34,197,94,.22);
     }
-    .brand-title{font-size:19px;line-height:1}
+    .brand-text{min-width:0}
+    .brand-title{font-size:18px;font-weight:900;letter-spacing:-.03em;line-height:1.1}
     .brand-sub{font-size:12px;color:var(--muted);margin-top:4px}
-    .menu{
-      display:flex;align-items:center;gap:6px;flex-wrap:wrap
-    }
+
+    .menu{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
     .menu a{
-      padding:10px 13px;border-radius:14px;color:#334155;font-weight:700;
+      padding:10px 13px;border-radius:14px;color:var(--muted);font-weight:700;
       transition:.2s ease;
     }
-    .menu a:hover{background:#edf7ef;color:#0f172a}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .menu a:hover,.menu a.active{background:color-mix(in srgb, var(--brand) 10%, transparent);color:var(--text)}
+
+    .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .btn{
       border:none;cursor:pointer;
       padding:12px 16px;border-radius:16px;
-      font-weight:800;font-size:14px;
-      transition:.2s ease;
       display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      box-shadow:none;
+      font-weight:800;transition:.22s ease;
+      background:var(--surface-2);color:var(--text);
+      border:1px solid var(--line);
+      box-shadow:0 8px 24px rgba(15,23,42,.04);
       white-space:nowrap;
     }
-    .btn:hover{transform:translateY(-1px)}
-    .btn-primary{
-      background:linear-gradient(135deg,var(--green),var(--green2));
-      color:#fff;
-      box-shadow:0 14px 30px rgba(34,197,94,.18);
-    }
-    .btn-dark{background:var(--dark);color:#fff}
-    .btn-light{background:#fff;border:1px solid var(--line);color:#0f172a}
-    .btn-soft{background:#effaf1;border:1px solid #dff3e7;color:#14532d}
-    .hero{padding:34px 0 18px}
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.25fr .75fr;
-      gap:20px;
-      align-items:stretch;
-    }
-    .panel{
-      background:rgba(255,255,255,.94);
-      border:1px solid rgba(230,236,232,.92);
+    .btn:hover{transform:translateY(-1px);box-shadow:0 14px 30px rgba(15,23,42,.08)}
+    .btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border:none;box-shadow:0 14px 36px rgba(34,197,94,.18)}
+    .btn-dark{background:var(--dark);color:#fff;border:none}
+    .btn-soft{background:color-mix(in srgb, var(--brand) 10%, transparent);color:var(--brand);border-color:color-mix(in srgb, var(--brand) 20%, transparent)}
+
+    .hero{padding:26px 0 10px}
+    .hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:stretch}
+    .card{
+      background:var(--surface);
+      border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
+      backdrop-filter:blur(18px);
     }
     .hero-main{
+      position:relative;overflow:hidden;
       padding:34px;
       background:
-        linear-gradient(135deg, rgba(21,128,61,.98), rgba(34,197,94,.92));
+        linear-gradient(135deg, rgba(21,128,61,.97), rgba(34,197,94,.92)),
+        radial-gradient(circle at top right, rgba(255,255,255,.14), transparent 40%);
       color:#fff;
-      overflow:hidden;
-      position:relative;
+      min-height:430px;
     }
-    .hero-main:before,
-    .hero-main:after{
-      content:"";
-      position:absolute;
-      border-radius:50%;
-      background:rgba(255,255,255,.08);
+    .hero-main:before,.hero-main:after{
+      content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.10);pointer-events:none;
     }
-    .hero-main:before{right:-100px;top:-70px;width:230px;height:230px}
-    .hero-main:after{right:50px;bottom:-140px;width:280px;height:280px}
+    .hero-main:before{width:280px;height:280px;right:-80px;top:-90px}
+    .hero-main:after{width:380px;height:380px;right:60px;bottom:-220px}
     .badge{
       display:inline-flex;align-items:center;gap:8px;
       padding:8px 12px;border-radius:999px;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.18);
-      font-size:13px;font-weight:800;
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16);
+      color:#fff;font-size:13px;font-weight:800;letter-spacing:-.01em;
       position:relative;z-index:1;
     }
     h1{
       margin:16px 0 14px;
-      font-size:clamp(38px,6vw,66px);
-      line-height:.98;
-      letter-spacing:-.05em;
+      font-size:clamp(38px,6vw,68px);
+      line-height:.96;
+      letter-spacing:-.06em;
       max-width:12ch;
       position:relative;z-index:1;
     }
     .lead{
-      font-size:17px;
-      line-height:1.7;
-      max-width:760px;
-      color:rgba(255,255,255,.93);
-      position:relative;z-index:1;
+      max-width:780px;color:rgba(255,255,255,.94);line-height:1.75;font-size:17px;position:relative;z-index:1;
     }
-    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:1}
-    .hero-bullets{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin-top:28px;
-      position:relative;
-      z-index:1;
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;position:relative;z-index:1}
+    .hero-mini{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px;position:relative;z-index:1;
     }
-    .mini{
-      padding:14px 16px;
-      border-radius:18px;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.16);
-      backdrop-filter:blur(10px);
-      font-size:13px;
-      line-height:1.55;
+    .hero-mini > div{
+      padding:14px 15px;border-radius:20px;
+      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px);
+      font-size:13px;line-height:1.6;
     }
-    .hero-side{
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:14px;
-    }
+
+    .hero-side{padding:18px;display:flex;flex-direction:column;gap:14px}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
     .stat{
-      padding:16px;
-      border-radius:20px;
-      background:linear-gradient(180deg,#fff,#f9fcfa);
-      border:1px solid var(--line);
-      min-height:104px;
-      box-shadow:0 8px 24px rgba(15,23,42,.03);
+      padding:16px;border-radius:22px;
+      background:linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 90%, transparent), color-mix(in srgb, var(--surface-2) 100%, transparent));
+      border:1px solid var(--line);min-height:110px;box-shadow:0 8px 24px rgba(15,23,42,.04);
     }
-    .stat .value{font-size:28px;font-weight:900;letter-spacing:-.04em}
-    .stat .label{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.4}
-    .side-box{
-      padding:16px;
-      border-radius:20px;
-      background:#f8faf9;
-      border:1px solid var(--line);
-    }
-    .section{padding:18px 0}
-    .section-head{
-      display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;
-      margin-bottom:14px;
-    }
-    .title{
-      font-size:28px;line-height:1.1;letter-spacing:-.04em;margin:0 0 8px
-    }
-    .subtitle{margin:0;color:var(--muted);line-height:1.65;max-width:760px}
+    .stat-value{font-size:28px;font-weight:900;letter-spacing:-.04em;line-height:1}
+    .stat-label{margin-top:6px;font-size:13px;color:var(--muted);line-height:1.45}
+    .side-box{padding:16px;border-radius:20px;background:color-mix(in srgb, var(--surface-2) 88%, transparent);border:1px solid var(--line)}
+    .side-box strong{display:block;margin-bottom:8px}
+    .side-box p{margin:0;color:var(--muted);line-height:1.7}
+
     .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-    .card{
-      background:rgba(255,255,255,.96);
-      border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow:var(--shadow);
-    }
-    .card-pad{padding:18px}
-    .feature{
-      display:flex;gap:14px;align-items:flex-start;
-      padding:18px;
-      transition:.2s ease;
-    }
-    .feature:hover{transform:translateY(-2px)}
+
+    .feature{padding:18px;display:flex;gap:14px;align-items:flex-start;transition:.22s ease}
+    .feature:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(15,23,42,.08)}
     .icon{
-      width:46px;height:46px;border-radius:16px;
+      width:48px;height:48px;border-radius:16px;flex:none;
       display:grid;place-items:center;
-      color:#166534;
-      background:#ecfdf5;
-      border:1px solid #dff3e7;
-      flex:none;
+      background:color-mix(in srgb, var(--brand) 12%, transparent);
+      color:var(--brand);
+      border:1px solid color-mix(in srgb, var(--brand) 18%, transparent);
       font-size:20px;
     }
-    .feature h3{margin:0 0 6px;font-size:18px}
-    .feature p{margin:0;color:var(--muted);line-height:1.65}
-    .pill-row{display:flex;flex-wrap:wrap;gap:10px}
+    .feature h3{margin:0 0 6px;font-size:18px;letter-spacing:-.02em}
+    .feature p{margin:0;color:var(--muted);line-height:1.7}
+
+    .panel{padding:18px}
+    .panel-title{font-size:24px;font-weight:900;letter-spacing:-.04em;margin:0 0 10px}
+    .panel-sub{margin:0 0 14px;color:var(--muted);line-height:1.65}
+
+    .pill-row{display:flex;gap:10px;flex-wrap:wrap}
     .pill{
       padding:10px 14px;border-radius:999px;
-      background:#fff;border:1px solid var(--line);
-      color:#334155;font-size:13px;font-weight:800;
-      box-shadow:0 6px 20px rgba(15,23,42,.03);
+      background:color-mix(in srgb, var(--surface-2) 92%, transparent);
+      border:1px solid var(--line);
+      font-size:13px;font-weight:800;color:var(--text);
     }
-    .toolbar{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-    }
+
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .input, select, textarea{
-      width:100%;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:12px 14px;
-      border-radius:16px;
-      outline:none;
-      font:inherit;
-      color:var(--text);
+      width:100%;border:1px solid var(--line);background:color-mix(in srgb, var(--surface-2) 95%, transparent);color:var(--text);
+      padding:12px 14px;border-radius:16px;outline:none;transition:.2s ease;box-shadow:0 8px 24px rgba(15,23,42,.03);
     }
-    .input:focus, select:focus, textarea:focus{
-      border-color:#86efac;
-      box-shadow:0 0 0 4px rgba(34,197,94,.12);
-    }
-    .search{min-width:270px;max-width:390px}
+    .input:focus, select:focus, textarea:focus{border-color:color-mix(in srgb, var(--brand) 40%, transparent);box-shadow:0 0 0 4px rgba(34,197,94,.10)}
+    .search{min-width:270px;max-width:420px}
     .select{min-width:190px}
-    .products{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
-    }
-    .product{
-      overflow:hidden;
-      transition:.2s ease;
-    }
-    .product:hover{transform:translateY(-3px)}
-    .product-top{
-      padding:18px 18px 0;
-      display:flex;justify-content:space-between;gap:12px;align-items:flex-start
-    }
+
+    .products{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .product{overflow:hidden;transition:.22s ease;position:relative}
+    .product:hover{transform:translateY(-4px)}
+    .product-top{padding:18px 18px 0;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .product h3{margin:0;font-size:22px;line-height:1.1;letter-spacing:-.03em}
+    .meta{margin-top:6px;color:var(--muted);font-size:14px;line-height:1.55}
     .tag{
-      display:inline-flex;align-items:center;gap:6px;
-      padding:7px 10px;border-radius:999px;
-      font-size:12px;font-weight:900;
-      background:#ecfdf5;color:#166534;
-      border:1px solid #dff3e7;
-      white-space:nowrap;
+      display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;
+      background:color-mix(in srgb, var(--brand) 12%, transparent);color:var(--brand);
+      border:1px solid color-mix(in srgb, var(--brand) 16%, transparent);
+      font-size:12px;font-weight:900;white-space:nowrap;
     }
-    .tag.gray{background:#f1f5f9;color:#334155;border-color:#e2e8f0}
-    .product h3{margin:0;font-size:22px;letter-spacing:-.03em}
-    .meta{color:var(--muted);font-size:14px;line-height:1.55;margin-top:6px}
-    .image{
-      height:136px;
-      margin:16px 18px 0;
-      border-radius:20px;
+    .tag.gray{background:rgba(100,116,139,.12);color:var(--muted);border-color:rgba(100,116,139,.12)}
+    .visual{
+      height:140px;margin:16px 18px 0;border-radius:22px;
       background:
-        linear-gradient(135deg, rgba(21,128,61,.12), rgba(34,197,94,.06)),
-        linear-gradient(180deg,#fff,#f7faf8);
-      border:1px solid var(--line);
-      display:flex;align-items:end;justify-content:space-between;
-      padding:14px;
-      position:relative;
-      overflow:hidden;
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,.60), transparent 20%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,.18), transparent 20%),
+        linear-gradient(135deg, color-mix(in srgb, var(--brand) 14%, transparent), color-mix(in srgb, var(--brand-2) 10%, transparent)),
+        linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 98%, transparent), color-mix(in srgb, var(--surface-2) 90%, transparent));
+      border:1px solid var(--line);position:relative;overflow:hidden;
+      display:flex;align-items:end;justify-content:space-between;padding:14px;
     }
-    .image:before{
-      content:"";
-      position:absolute;
-      right:-28px;top:-24px;
-      width:130px;height:130px;border-radius:50%;
-      background:rgba(34,197,94,.12);
+    .visual:before{content:"";position:absolute;right:-28px;top:-18px;width:140px;height:140px;border-radius:50%;background:rgba(34,197,94,.14)}
+    .visual .emoji{font-size:58px;line-height:1;position:relative;z-index:1}
+    .visual .chip{
+      position:relative;z-index:1;padding:6px 10px;border-radius:999px;
+      background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.55);font-weight:900;color:#14532d;font-size:12px;
     }
-    .fruit{
-      position:relative;z-index:1;
-      font-size:56px;line-height:1
-    }
-    .image small{
-      position:relative;z-index:1;
-      font-weight:900;color:#14532d;background:rgba(255,255,255,.82);padding:6px 10px;border-radius:999px;border:1px solid rgba(230,236,232,.9)
-    }
-    .price{
-      margin:14px 18px 0;
-      padding:14px;
-      border-radius:18px;
-      background:#f8faf9;
-      border:1px solid var(--line);
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-    }
+    .price{margin:14px 18px 0;padding:14px;border-radius:18px;background:color-mix(in srgb, var(--surface-2) 95%, transparent);border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
     .price strong{font-size:20px;letter-spacing:-.03em}
-    .price span{font-size:13px;color:var(--muted)}
     .stars{font-weight:900;color:#d97706}
-    .product-body{
-      padding:14px 18px 18px;
-    }
-    .product-grid{
-      display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px
-    }
-    .mini-card{
-      background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px
-    }
+    .product-body{padding:14px 18px 18px}
+    .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .mini-card{padding:12px;border-radius:16px;border:1px solid var(--line);background:color-mix(in srgb, var(--surface-2) 95%, transparent)}
     .mini-card small{display:block;color:var(--muted);margin-bottom:4px}
     .mini-card strong{font-size:14px}
     .product-actions{display:flex;gap:10px;margin-top:14px}
     .product-actions .btn{flex:1}
-    .list{display:flex;flex-direction:column;gap:12px}
-    .step{
-      display:flex;gap:14px;align-items:flex-start;
-      padding:16px;
-      border-radius:18px;
-      background:#fff;
-      border:1px solid var(--line);
-      transition:.2s ease;
-    }
+
+    .step-list{display:flex;flex-direction:column;gap:12px}
+    .step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:18px;background:color-mix(in srgb, var(--surface-2) 95%, transparent);border:1px solid var(--line);transition:.2s ease}
     .step:hover{transform:translateY(-2px)}
-    .step-num{
-      width:34px;height:34px;border-radius:12px;
-      display:grid;place-items:center;
-      background:#ecfdf5;color:#166534;font-weight:900;flex:none
-    }
+    .step-num{width:36px;height:36px;border-radius:13px;flex:none;display:grid;place-items:center;background:color-mix(in srgb, var(--brand) 12%, transparent);color:var(--brand);font-weight:900}
     .step h4{margin:0 0 4px}
     .step p{margin:0;color:var(--muted);line-height:1.65}
-    .seller{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:14px 16px;border-radius:18px;background:#fff;border:1px solid var(--line);
-      transition:.2s ease;
-    }
+
+    .seller{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:18px;background:color-mix(in srgb, var(--surface-2) 95%, transparent);border:1px solid var(--line);transition:.2s ease}
     .seller:hover{transform:translateY(-2px)}
     .seller-left{display:flex;align-items:center;gap:12px}
-    .avatar{
-      width:44px;height:44px;border-radius:16px;
-      background:linear-gradient(135deg,#16a34a,#22c55e);
-      color:#fff;display:grid;place-items:center;font-weight:900;
-      box-shadow:0 10px 20px rgba(34,197,94,.18);
-    }
+    .avatar{width:46px;height:46px;border-radius:16px;flex:none;display:grid;place-items:center;color:#fff;font-weight:900;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 10px 24px rgba(34,197,94,.16)}
     .seller h4{margin:0 0 4px}
     .seller small{color:var(--muted)}
-    .faq-item{
-      border:1px solid var(--line);
-      border-radius:18px;
-      overflow:hidden;
-      background:#fff;
-    }
-    .faq-q{
-      width:100%;
-      background:none;border:none;cursor:pointer;
-      display:flex;justify-content:space-between;gap:12px;
-      padding:16px 18px;
-      text-align:left;
-      font:inherit;
-      font-weight:900;
-      color:var(--text);
-    }
-    .faq-a{
-      display:none;
-      padding:0 18px 16px;
-      color:var(--muted);
-      line-height:1.7;
-    }
-    .faq-item.open .faq-a{display:block}
-    .contact{
-      padding:18px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-    }
-    .contact-box{
-      padding:18px;
-      border-radius:20px;
-      background:#fff;
-      border:1px solid var(--line);
-    }
-    .contact-box h3{margin:0 0 10px}
-    .contact-line{
-      display:flex;gap:12px;align-items:center;
-      padding:12px 0;border-bottom:1px dashed #e7ece8;
-      color:#334155
-    }
+
+    .faq-item{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:color-mix(in srgb, var(--surface-2) 94%, transparent);box-shadow:0 8px 24px rgba(15,23,42,.03)}
+    .faq-q{width:100%;border:none;background:none;cursor:pointer;padding:18px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;color:var(--text);font-weight:900;font-size:16px}
+    .faq-icon{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;flex:none;background:color-mix(in srgb, var(--brand) 12%, transparent);color:var(--brand);transition:.25s ease}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 18px;color:var(--muted);line-height:1.75}
+    .faq-item.open .faq-a{padding:0 18px 18px}
+    .faq-item.open .faq-icon{transform:rotate(45deg)}
+
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .contact-box{padding:18px;border-radius:24px;background:var(--surface-2);border:1px solid var(--line)}
+    .contact-line{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px dashed var(--line-strong);color:var(--text)}
     .contact-line:last-child{border-bottom:none}
-    .contact-line b{min-width:84px}
-    .footer{
-      margin:18px 0 24px;
-      padding:18px;
-      color:#e2e8f0;
-      background:linear-gradient(135deg,#0f172a,#14532d);
-      border-radius:24px;
-      box-shadow:var(--shadow);
-    }
-    .footer-inner{
-      display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap
-    }
-    .footer small{color:#cbd5e1}
-    .floating{
-      position:fixed;right:18px;bottom:18px;z-index:65;
-      display:flex;flex-direction:column;gap:10px
-    }
-    .fab{
-      width:52px;height:52px;border-radius:18px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--green),var(--green2));
-      color:#fff;border:none;cursor:pointer;
-      box-shadow:0 16px 35px rgba(34,197,94,.25);
-      font-size:20px;
-    }
-    .modal-backdrop{
-      position:fixed;inset:0;background:rgba(2,6,23,.60);
-      display:none;align-items:center;justify-content:center;
-      padding:18px;z-index:80;
-    }
-    .modal{
-      width:min(760px,100%);
-      background:#fff;
-      border-radius:26px;
-      border:1px solid var(--line);
-      box-shadow:0 30px 90px rgba(0,0,0,.25);
-      max-height:92vh;
-      overflow:auto;
-    }
-    .modal-head{
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-      padding:18px 18px 0;
-    }
+    .contact-line b{min-width:110px}
+
+    .table-wrap{overflow:auto;border-radius:22px;border:1px solid var(--line);background:var(--surface-2)}
+    table{width:100%;border-collapse:collapse;min-width:760px}
+    th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}
+    th{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:color-mix(in srgb, var(--surface-2) 92%, transparent)}
+    tr:hover td{background:color-mix(in srgb, var(--brand) 5%, transparent)}
+
+    .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .trust-item{padding:16px;border-radius:20px;background:var(--surface-2);border:1px solid var(--line);box-shadow:0 8px 24px rgba(15,23,42,.03)}
+    .trust-item strong{display:block;margin-bottom:6px}
+    .trust-item p{margin:0;color:var(--muted);line-height:1.7;font-size:14px}
+    .quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .quote{padding:18px;border-radius:24px;background:var(--surface-2);border:1px solid var(--line);box-shadow:0 10px 28px rgba(15,23,42,.04)}
+    .quote-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .quote-head h4{margin:0}
+    .quote-head small{color:var(--muted)}
+    .stars-row{color:#f59e0b;font-size:14px;letter-spacing:2px}
+    .marquee{overflow:hidden;position:relative;border-radius:24px;border:1px solid var(--line);background:color-mix(in srgb, var(--surface-2) 95%, transparent)}
+    .marquee-track{display:flex;gap:12px;white-space:nowrap;animation:marquee 22s linear infinite;padding:14px 0}
+    .marquee-track span{padding:8px 14px;border-radius:999px;background:color-mix(in srgb, var(--brand) 10%, transparent);color:var(--brand);font-weight:800;border:1px solid color-mix(in srgb, var(--brand) 16%, transparent)}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .newsletter{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:center}
+    .newsletter-card{padding:18px;border-radius:24px;background:var(--surface-2);border:1px solid var(--line)}
+    .newsletter-form{display:flex;gap:10px;flex-wrap:wrap}
+    .newsletter-form .input{flex:1;min-width:220px}
+    .newsletter-note{font-size:13px;color:var(--muted);line-height:1.65;margin-top:10px}
+    .footer{margin:18px 0 28px;border-radius:28px;background:linear-gradient(135deg,#0b1220,#124d2e);color:#e7f5ec;box-shadow:var(--shadow);overflow:hidden;position:relative}
+    .footer:before{content:"";position:absolute;inset:auto -80px -120px auto;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.06);filter:blur(2px)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:20px}
+    .footer small{color:#cfe2d4}
+
+    .floating{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:95}
+    .fab{width:54px;height:54px;border:none;border-radius:18px;cursor:pointer;display:grid;place-items:center;color:#fff;font-size:20px;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 16px 36px rgba(34,197,94,.22)}
+
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:120}
+    .modal{width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:28px;background:var(--surface-2);border:1px solid var(--line);box-shadow:0 30px 90px rgba(0,0,0,.24)}
+    .modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 18px 0}
     .modal h2{margin:0}
-    .close{
-      width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:20px
-    }
+    .close{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);cursor:pointer;font-size:20px}
     .form{padding:18px}
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .full{grid-column:1/-1}
-    label{display:block;font-size:13px;font-weight:900;margin:0 0 8px;color:#334155}
-    .check{
-      display:flex;align-items:center;gap:8px;
-      font-size:14px;color:#334155
-    }
-    .empty{
-      padding:24px;
-      text-align:center;
-      color:var(--muted);
-      border:1px dashed #d7e2da;
-      border-radius:22px;
-      background:#fff;
-    }
-    .toast{
-      position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
-      background:#0f172a;color:#fff;padding:12px 16px;border-radius:999px;
-      box-shadow:0 18px 40px rgba(0,0,0,.2);opacity:0;pointer-events:none;z-index:90;
-      transition:.25s ease;
-      font-weight:700;
-      max-width:min(92vw,540px);
-      text-align:center;
-    }
+    label{display:block;font-size:13px;font-weight:900;margin:0 0 8px;color:var(--text)}
+    .check{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(18px);background:#0f172a;color:#fff;padding:12px 16px;border-radius:999px;opacity:0;pointer-events:none;z-index:130;box-shadow:0 18px 40px rgba(0,0,0,.2);transition:.24s ease;max-width:min(92vw,560px);text-align:center;font-weight:800}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    .reveal{opacity:0;transform:translateY(20px);transition:all .7s ease}
+    .reveal.visible{opacity:1;transform:none}
+
     .mobile-toggle{display:none}
-    @media (max-width: 1060px){
-      .hero-grid,.grid-3,.grid-2,.products,.contact{grid-template-columns:1fr}
-      .hero-bullets{grid-template-columns:1fr}
-      .menu{display:none}
-      .mobile-toggle{display:inline-flex}
+    .mobile-menu-panel{display:none;padding-bottom:14px}
+    .mobile-menu-panel.open{display:block}
+    .mobile-links{display:flex;flex-wrap:wrap;gap:8px}
+
+    .hidden{display:none !important}
+    .spacer{height:8px}
+    .backtop{
+      position:fixed;left:18px;bottom:18px;z-index:95;
+      width:48px;height:48px;border:none;border-radius:16px;cursor:pointer;
+      background:var(--surface-2);color:var(--text);border:1px solid var(--line);
+      box-shadow:0 14px 30px rgba(15,23,42,.08);display:none;
+    }
+    .backtop.show{display:grid;place-items:center}
+
+    @media (max-width: 1100px){
+      .hero-grid,.grid-3,.grid-2,.products,.contact-grid{grid-template-columns:1fr}
       .search{min-width:100%;max-width:none}
       .select{min-width:100%}
+      .menu{display:none}
+      .mobile-toggle{display:inline-flex}
+      .hero-mini{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr 1fr}
     }
-    @media (max-width: 640px){
-      .hero-main{padding:24px}
-      .title{font-size:24px}
-      .nav-inner{height:auto;padding:14px 0;align-items:flex-start;flex-direction:column}
+    @media (max-width: 680px){
+      .nav-inner{padding:12px 0;align-items:flex-start;flex-direction:column}
       .actions{width:100%}
       .actions .btn{flex:1}
+      .hero-main{padding:24px;min-height:auto}
+      h1{font-size:clamp(34px,12vw,48px)}
+      .lead{font-size:16px}
       .hero-actions{flex-direction:column}
       .hero-actions .btn{width:100%}
       .product-grid{grid-template-columns:1fr}
-      .stats{grid-template-columns:1fr 1fr}
       .form-grid{grid-template-columns:1fr}
-    }
-    .mobile-menu-panel{
-      display:none;
-      padding:0 0 14px;
-    }
-    .mobile-menu-panel.open{display:block}
-    .mobile-links{
-      display:flex;flex-wrap:wrap;gap:8px;
+      .stats{grid-template-columns:1fr 1fr}
+      .footer-inner{padding:18px}
     }
   </style>
 </head>
 <body>
+  <div class="bg-blob blob-a"></div>
+  <div class="bg-blob blob-b"></div>
+  <div class="bg-blob blob-c"></div>
 
   <header class="nav">
     <div class="wrap nav-inner">
       <div class="brand">
         <div class="logo">🌿</div>
-        <div>
+        <div class="brand-text">
           <div class="brand-title">AgroDirect Uz</div>
-          <div class="brand-sub">Verified agro marketplace</div>
+          <div class="brand-sub">Premium agro marketplace • verified sellerlar</div>
         </div>
       </div>
 
-      <nav class="menu">
-        <a href="#about">About</a>
-        <a href="#market">Market</a>
+      <nav class="menu" aria-label="Asosiy menyu">
+        <a href="#about">Biz haqimizda</a>
+        <a href="#market">Bozor</a>
         <a href="#features">Afzalliklar</a>
-        <a href="#how">Qanday ishlaydi</a>
+        <a href="#how">Jarayon</a>
         <a href="#sellers">Sellerlar</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Kontakt</a>
       </nav>
 
       <div class="actions">
-        <button class="btn btn-light mobile-toggle" onclick="toggleMobileMenu()">Меню</button>
+        <button class="btn btn-light mobile-toggle" onclick="toggleMobileMenu()">Menyu</button>
+        <button class="btn btn-light" onclick="toggleTheme()">☀︎ / ☾</button>
+        <button class="btn btn-light" onclick="copySiteLink()">Link nusxa</button>
         <button class="btn btn-light" onclick="openModal('productModal')">+ Mahsulot</button>
         <button class="btn btn-primary" onclick="openModal('orderModal')">Buyurtma</button>
       </div>
     </div>
     <div class="wrap mobile-menu-panel" id="mobileMenu">
-      <div class="mobile-links" style="padding-bottom:14px">
-        <a class="pill" href="#about">About</a>
-        <a class="pill" href="#market">Market</a>
+      <div class="mobile-links">
+        <a class="pill" href="#about">Biz haqimizda</a>
+        <a class="pill" href="#market">Bozor</a>
         <a class="pill" href="#features">Afzalliklar</a>
-        <a class="pill" href="#how">Qanday ishlaydi</a>
+        <a class="pill" href="#how">Jarayon</a>
         <a class="pill" href="#sellers">Sellerlar</a>
         <a class="pill" href="#faq">FAQ</a>
         <a class="pill" href="#contact">Kontakt</a>
@@ -542,140 +419,96 @@
   </header>
 
   <main class="wrap">
-    <section class="hero">
+    <section class="hero reveal">
       <div class="hero-grid">
-        <div class="panel hero-main">
+        <article class="card hero-main">
           <div class="badge">✓ Tekshirilgan sellerlar • ✓ Ishonchli mahsulot • ✓ Tez aloqa</div>
-          <h1>Dehqon va xaridorni ishonchli platformada bog‘laymiz.</h1>
-          <p class="lead">
-            AgroDirect Uz — mahsulot tekshiruvi, verified seller, reyting, buyurtma so‘rovi va logistika yo‘nalishini bitta joyda jamlaydigan agro platforma.
-          </p>
+          <h1>Dehqon va xaridorni bitta ishonchli platformada bog‘laymiz.</h1>
+          <p class="lead">AgroDirect Uz — mahsulotni topish, tekshirish, buyurtma berish va sotuvchini baholash jarayonini bitta joyga jamlaydigan premium agro marketplace. Bu versiya hozir prezentatsiyadan ancha kuchliroq, haqiqiy startup landing page darajasida ishlaydi.</p>
 
           <div class="hero-actions">
-            <button class="btn btn-light" onclick="document.querySelector('#market').scrollIntoView({behavior:'smooth'})">Marketni ko‘rish</button>
-            <button class="btn btn-dark" onclick="openModal('orderModal')">Demo buyurtma</button>
+            <button class="btn btn-dark" onclick="document.querySelector('#market').scrollIntoView({behavior:'smooth'})">Bozorni ko‘rish</button>
+            <button class="btn btn-light" onclick="openModal('orderModal')">Demo buyurtma</button>
             <button class="btn btn-soft" onclick="document.querySelector('#about').scrollIntoView({behavior:'smooth'})">Biz haqimizda</button>
           </div>
 
-          <div class="hero-bullets">
-            <div class="mini">Verified badge va reyting tizimi bilan ishonch oshadi.</div>
-            <div class="mini">Oddiy va tushunarli UX — dehqon uchun ham, xaridor uchun ham.</div>
-            <div class="mini">Keyin backend, login, admin panel va logistika qo‘shiladi.</div>
+          <div class="hero-mini">
+            <div>Verified badge va reyting tizimi bilan ishonch oshadi.</div>
+            <div>Oddiy, tez va mobilga mos UX — har foydalanuvchi uchun.</div>
+            <div>Keyin backend, login, admin panel va logistika qo‘shiladi.</div>
           </div>
-        </div>
+        </article>
 
-        <div class="panel hero-side">
+        <aside class="card hero-side">
           <div class="stats">
-            <div class="stat">
-              <div class="value" id="sellerCount">0</div>
-              <div class="label">Sellerlar</div>
-            </div>
-            <div class="stat">
-              <div class="value" id="productCount">0</div>
-              <div class="label">Mahsulotlar</div>
-            </div>
-            <div class="stat">
-              <div class="value" id="verifiedCount">0</div>
-              <div class="label">Verified</div>
-            </div>
-            <div class="stat">
-              <div class="value" id="orderCount">0</div>
-              <div class="label">Orderlar</div>
-            </div>
+            <div class="stat"><div class="stat-value" id="sellerCount">0</div><div class="stat-label">Sellerlar</div></div>
+            <div class="stat"><div class="stat-value" id="productCount">0</div><div class="stat-label">Mahsulotlar</div></div>
+            <div class="stat"><div class="stat-value" id="verifiedCount">0</div><div class="stat-label">Verified</div></div>
+            <div class="stat"><div class="stat-value" id="orderCount">0</div><div class="stat-label">Orderlar</div></div>
           </div>
 
           <div class="side-box">
             <strong>Bugungi fokus</strong>
-            <p class="meta" style="margin:8px 0 0">
-              Saytni professional ko‘rinishga olib kelish, telefon uchun moslash va demo sifatini oshirish.
-            </p>
+            <p>Marketni premium ko‘rinishga olib kelish, ishonch hissini kuchaytirish va demoni klientga ko‘rsatishga tayyorlash.</p>
           </div>
 
           <div class="side-box">
-            <strong>Eng faol hududlar</strong>
-            <p class="meta" style="margin:8px 0 0">Samarqand, Namangan, Jizzax, Andijon, Toshkent vil.</p>
+            <strong>Asosiy hududlar</strong>
+            <p>Samarqand, Jizzax, Andijon, Namangan, Toshkent viloyati va boshqalar.</p>
           </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section reveal" id="trust">
+      <div class="card panel">
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track">
+            <span>24/7 ishlaydi</span><span>Verified sellerlar</span><span>Tez buyurtma</span><span>Premium UI</span><span>Mobile friendly</span><span>Search + Filter</span><span>Order flow</span><span>GitHub Pages</span><span>24/7 ishlaydi</span><span>Verified sellerlar</span><span>Tez buyurtma</span><span>Premium UI</span><span>Mobile friendly</span><span>Search + Filter</span><span>Order flow</span><span>GitHub Pages</span>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="trust-grid">
+          <div class="trust-item"><strong>Ishonchli tekshiruv</strong><p>Seller va mahsulotlar ko‘rinadigan, shaffof va ishonchli tizimda namoyon bo‘ladi.</p></div>
+          <div class="trust-item"><strong>Tez ishlaydigan UX</strong><p>Qidiruv, filter, sort, modal va accordion interfeysni kuchli qiladi.</p></div>
+          <div class="trust-item"><strong>Mobilga mos</strong><p>Telefon ekranida ham chiroyli, bosiladigan va tushunarli ko‘rinadi.</p></div>
+          <div class="trust-item"><strong>Kengayishga tayyor</strong><p>Backend, login, real API, domain va analytics qo‘shishga mos qurildi.</p></div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="about">
+    <section class="section reveal" id="about">
       <div class="section-head">
-        <div>
-          <h2 class="title">About AgroDirect Uz</h2>
-          <p class="subtitle">
-            Bu platforma dehqon mahsulotini adolatli ko‘rsatadi, xaridorga esa ishonchli tanlov beradi. Startup uchun eng muhim narsa — ishonch, shaffoflik va oddiy ishlash.
-          </p>
+        <div class="title-wrap">
+          <h2 class="section-title">AgroDirect Uz nima?</h2>
+          <p class="section-sub">Bu platforma dehqon mahsulotini adolatli va shaffof ko‘rsatadi, xaridorga esa ishonchli tanlov beradi. Minimal ko‘rinish emas — premium startup ko‘rinishi.</p>
         </div>
       </div>
       <div class="grid-3">
-        <div class="card feature">
-          <div class="icon">🎯</div>
-          <div>
-            <h3>Vazifa</h3>
-            <p>Mahsulotni tez topish, tekshirish va buyurtma qilishni osonlashtirish.</p>
-          </div>
-        </div>
-        <div class="card feature">
-          <div class="icon">🛡️</div>
-          <div>
-            <h3>Ishonch</h3>
-            <p>Verified seller, rating va admin tekshiruv tizimi ishonchni oshiradi.</p>
-          </div>
-        </div>
-        <div class="card feature">
-          <div class="icon">🚀</div>
-          <div>
-            <h3>Kengayish</h3>
-            <p>Keyinchalik backend, mobil app, logistika va AI qo‘shish mumkin.</p>
-          </div>
-        </div>
+        <div class="card feature"><div class="icon">🎯</div><div><h3>Vazifa</h3><p>Mahsulotni tez topish, tekshirish va buyurtma qilishni osonlashtirish.</p></div></div>
+        <div class="card feature"><div class="icon">🛡️</div><div><h3>Ishonch</h3><p>Verified seller, rating va admin tekshiruv tizimi bilan ishonch oshadi.</p></div></div>
+        <div class="card feature"><div class="icon">🚀</div><div><h3>Kengayish</h3><p>Keyinchalik backend, mobil app, logistika, AI va real to‘lov qo‘shish mumkin.</p></div></div>
       </div>
     </section>
 
-    <section class="section" id="features">
+    <section class="section reveal" id="features">
       <div class="section-head">
-        <div>
-          <h2 class="title">Nega AgroDirect Uz?</h2>
-          <p class="subtitle">
-            Bu bo‘lim startupning kuchini ko‘rsatadi: ishonch, shaffoflik, tez aloqa va kelajakda kengaytirish mumkin bo‘lgan platforma.
-          </p>
+        <div class="title-wrap">
+          <h2 class="section-title">Nega bu kuchliroq ko‘rinadi?</h2>
+          <p class="section-sub">Fon, gradient, cardlar, badge’lar va ishlaydigan interface saytni oddiy prezentatsiyadan haqiqiy startup landing page darajasiga olib chiqadi.</p>
         </div>
       </div>
-
       <div class="grid-3">
-        <div class="card feature">
-          <div class="icon">✓</div>
-          <div>
-            <h3>Verified seller</h3>
-            <p>Tekshirilgan sotuvchi belgisi xaridor ishonchini oshiradi.</p>
-          </div>
-        </div>
-        <div class="card feature">
-          <div class="icon">⚡</div>
-          <div>
-            <h3>Tez buyurtma</h3>
-            <p>Mahsulotni ko‘rib, darrov bog‘lanish yoki buyurtma berish mumkin.</p>
-          </div>
-        </div>
-        <div class="card feature">
-          <div class="icon">📦</div>
-          <div>
-            <h3>Kelajakda logistika</h3>
-            <p>Ombor, yetkazish va to‘lov tizimlarini keyin qo‘shish mumkin.</p>
-          </div>
-        </div>
+        <div class="card feature"><div class="icon">✓</div><div><h3>Verified seller</h3><p>Tekshirilgan sotuvchi belgisi xaridor ishonchini oshiradi.</p></div></div>
+        <div class="card feature"><div class="icon">⚡</div><div><h3>Tez buyurtma</h3><p>Mahsulotni ko‘rib, darrov bog‘lanish yoki buyurtma berish mumkin.</p></div></div>
+        <div class="card feature"><div class="icon">📦</div><div><h3>Kelajakda logistika</h3><p>Ombor, yetkazish va to‘lov tizimlarini keyin qo‘shish mumkin.</p></div></div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="panel card-pad">
-        <div class="section-head">
-          <div>
-            <h2 class="title" style="font-size:24px;margin-bottom:4px">Kategoriyalar</h2>
-            <p class="subtitle">Platforma qaysi turdagi mahsulotlarni qamrab olishi mumkin.</p>
-          </div>
-        </div>
+    <section class="section reveal">
+      <div class="card panel">
+        <h3 class="panel-title">Kategoriyalar</h3>
+        <p class="panel-sub">Platforma qamrab olishi mumkin bo‘lgan asosiy yo‘nalishlar.</p>
         <div class="pill-row">
           <span class="pill">Sabzavot</span>
           <span class="pill">Meva</span>
@@ -690,193 +523,239 @@
       </div>
     </section>
 
-    <section class="section" id="market">
+    <section class="section reveal" id="market">
       <div class="section-head">
-        <div>
-          <h2 class="title">Mahsulot bozori</h2>
-          <p class="subtitle">Qidirish, filter qilish, sort va tekshirilgan sellerlarni ko‘rish uchun asosiy bo‘lim.</p>
+        <div class="title-wrap">
+          <h2 class="section-title">Mahsulot bozori</h2>
+          <p class="section-sub">Qidirish, filter qilish, sort va verified sellerlarni ko‘rish uchun asosiy bo‘lim.</p>
         </div>
         <div class="toolbar">
           <input id="search" class="input search" placeholder="Mahsulot, seller yoki hudud qidiring..." oninput="renderProducts()" />
-          <select id="categoryFilter" class="input select" onchange="renderProducts()">
-            <option value="All">Barcha kategoriyalar</option>
-          </select>
+          <select id="categoryFilter" class="input select" onchange="renderProducts()"><option value="All">Barcha kategoriyalar</option></select>
           <select id="sortFilter" class="input select" onchange="renderProducts()">
             <option value="featured">Tartib: tavsiya</option>
             <option value="price-asc">Narx: arzon → qimmat</option>
             <option value="price-desc">Narx: qimmat → arzon</option>
             <option value="rating-desc">Reyting: yuqori</option>
           </select>
-          <label class="check" style="margin:0 6px">
-            <input type="checkbox" id="verifiedOnly" onchange="renderProducts()" />
-            Verified
-          </label>
+          <label class="check"><input type="checkbox" id="verifiedOnly" onchange="renderProducts()" />Verified</label>
         </div>
       </div>
-
       <div class="products" id="products"></div>
     </section>
 
-    <section class="section grid-2" id="how">
-      <div class="panel card-pad">
-        <div class="section-head" style="margin-bottom:10px">
-          <div>
-            <h2 class="title" style="font-size:24px;margin-bottom:4px">Qanday ishlaydi</h2>
-            <p class="subtitle">MVP flow sodda bo‘lishi kerak. Hamma narsa tushunarli bo‘lsin.</p>
-          </div>
-        </div>
-        <div class="list">
-          <div class="step"><div class="step-num">1</div><div><h4>Seller ro‘yxatdan o‘tadi</h4><p>Telefon, hudud va biznes turini kiritadi.</p></div></div>
+    <section class="section grid-2 reveal" id="how">
+      <div class="card panel">
+        <h3 class="panel-title">Qanday ishlaydi</h3>
+        <p class="panel-sub">MVP flow sodda, tushunarli va ishonchli bo‘lishi kerak.</p>
+        <div class="step-list">
+          <div class="step"><div class="step-num">1</div><div><h4>Seller ro‘yxatdan o‘tadi</h4><p>Telefon, hudud va profil ma’lumotlarini kiritadi.</p></div></div>
           <div class="step"><div class="step-num">2</div><div><h4>Mahsulot qo‘shadi</h4><p>Narx, miqdor, kategoriya va surat kiritiladi.</p></div></div>
           <div class="step"><div class="step-num">3</div><div><h4>Admin tekshiradi</h4><p>Verified badge qo‘yiladi va mahsulot tasdiqlanadi.</p></div></div>
           <div class="step"><div class="step-num">4</div><div><h4>Xaridor buyurtma beradi</h4><p>Kontakt, buyurtma yoki keyin chat qo‘shiladi.</p></div></div>
-          <div class="step"><div class="step-num">5</div><div><h4>Reyting qo‘yiladi</h4><p>Keyingi xaridorlar uchun ishonch signaliga aylanadi.</p></div></div>
+          <div class="step"><div class="step-num">5</div><div><h4>Reyting qo‘yiladi</h4><p>Ishonch tizimi kuchayadi va takroriy savdo oshadi.</p></div></div>
         </div>
       </div>
 
-      <div class="panel card-pad">
-        <div class="section-head" style="margin-bottom:10px">
-          <div>
-            <h2 class="title" style="font-size:24px;margin-bottom:4px">Admin panel</h2>
-            <p class="subtitle">Tasdiqlash queue va monitoring ko‘rinishi.</p>
-          </div>
-        </div>
-        <div class="list" id="adminQueue"></div>
+      <div class="card panel">
+        <h3 class="panel-title">Admin panel</h3>
+        <p class="panel-sub">Tasdiqlash queue va monitoring ko‘rinishi.</p>
+        <div class="step-list" id="adminQueue"></div>
       </div>
     </section>
 
-    <section class="section" id="sellers">
+    <section class="section reveal" id="sellers">
       <div class="section-head">
-        <div>
-          <h2 class="title">Featured sellerlar</h2>
-          <p class="subtitle">Ishonchli sellerlar reyting va verified badge bilan ko‘rsatiladi.</p>
+        <div class="title-wrap">
+          <h2 class="section-title">Featured sellerlar</h2>
+          <p class="section-sub">Ishonchli sellerlar reyting va verified badge bilan ko‘rsatiladi.</p>
         </div>
       </div>
-
-      <div class="list">
-        <div class="seller">
-          <div class="seller-left">
-            <div class="avatar">N</div>
-            <div>
-              <h4>Nur Agro Farm</h4>
-              <small>Samarkand • Top Seller • 4.9</small>
-            </div>
-          </div>
-          <span class="tag">Verified</span>
-        </div>
-
-        <div class="seller">
-          <div class="seller-left">
-            <div class="avatar">G</div>
-            <div>
-              <h4>Green Valley</h4>
-              <small>Andijon • Trusted Farmer • 4.8</small>
-            </div>
-          </div>
-          <span class="tag">Verified</span>
-        </div>
-
-        <div class="seller">
-          <div class="seller-left">
-            <div class="avatar">M</div>
-            <div>
-              <h4>Milk House</h4>
-              <small>Toshkent vil. • Fast Response • 4.6</small>
-            </div>
-          </div>
-          <span class="tag gray">Pending</span>
-        </div>
+      <div class="step-list">
+        <div class="seller"><div class="seller-left"><div class="avatar">N</div><div><h4>Nur Agro Farm</h4><small>Samarkand • Top Seller • 4.9</small></div></div><span class="tag">Verified</span></div>
+        <div class="seller"><div class="seller-left"><div class="avatar">G</div><div><h4>Green Valley</h4><small>Andijon • Trusted Farmer • 4.8</small></div></div><span class="tag">Verified</span></div>
+        <div class="seller"><div class="seller-left"><div class="avatar">M</div><div><h4>Milk House</h4><small>Toshkent vil. • Fast Response • 4.6</small></div></div><span class="tag gray">Pending</span></div>
       </div>
     </section>
 
-    <section class="section" id="faq">
+    <section class="section reveal" id="faq">
       <div class="section-head">
-        <div>
-          <h2 class="title">FAQ</h2>
-          <p class="subtitle">Odamlar ko‘p beradigan savollar uchun alohida bo‘lim.</p>
+        <div class="title-wrap">
+          <h2 class="section-title">FAQ</h2>
+          <p class="section-sub">Savollar ochilib-yopiladigan accordion ko‘rinishda. Strelka aylanishi va yumshoq animatsiya bor.</p>
         </div>
       </div>
-
-      <div class="grid-2">
+      <div class="grid-2" id="faqList">
         <div class="faq-item open">
-          <button class="faq-q" onclick="toggleFaq(this)">
-            AgroDirect Uz nima?
-            <span>−</span>
-          </button>
-          <div class="faq-a">Dehqon va xaridorni verified marketplace orqali bog‘laydigan agro platforma.</div>
+          <button class="faq-q" onclick="toggleFaq(this)"><span>AgroDirect Uz nima?</span><span class="faq-icon">+</span></button>
+          <div class="faq-a">Dehqon va xaridorni verified marketplace orqali bog‘laydigan agro platforma. Bu yerda tekshirilgan sellerlar, mahsulotlar, buyurtma flow va keyingi bosqichda backend qo‘shilishi rejalashtiriladi.</div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
-            Bu oddiy marketplace’dan nimasi bilan farq qiladi?
-            <span>+</span>
-          </button>
-          <div class="faq-a">Bu yerda verified seller, reyting, admin tekshiruv va kelajakda logistika bor.</div>
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Bu oddiy marketplace’dan nimasi bilan farq qiladi?</span><span class="faq-icon">+</span></button>
+          <div class="faq-a">Bu yerda verified seller, reyting, admin tekshiruv, premium dizayn, qidiruv/filter va keyinchalik logistikani ulash mumkin bo‘lgan moslashuvchan struktura bor.</div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
-            Keyin login va buyurtma real ishlaydimi?
-            <span>+</span>
-          </button>
-          <div class="faq-a">Ha. Keyingi bosqichda backend, database va auth qo‘shiladi.</div>
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Keyin login va buyurtma real ishlaydimi?</span><span class="faq-icon">+</span></button>
+          <div class="faq-a">Ha. Keyingi bosqichda backend, database, auth va real order processing qo‘shiladi. Hozirgi versiya kuchli MVP va demo landing page vazifasini bajaradi.</div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
-            Saytni keyin kuchaytirsa bo‘ladimi?
-            <span>+</span>
-          </button>
-          <div class="faq-a">Ha. Har push’dan keyin GitHub Pages saytni yangilaydi, ustiga yangi funksiyalar qo‘shasiz.</div>
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Saytni keyin kuchaytirsa bo‘ladimi?</span><span class="faq-icon">+</span></button>
+          <div class="faq-a">Ha. GitHub Pages’ga push qilsangiz, sayt yangilanib boradi. Keyinchalik custom domain, SEO, animatsiya, analytics va real API qo‘shiladi.</div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="contact">
-      <div class="panel contact">
-        <div class="contact-box">
-          <h3>Kontakt</h3>
+    <section class="section reveal" id="contact">
+      <div class="contact-grid">
+        <div class="card contact-box">
+          <h3 class="panel-title">Kontakt</h3>
           <div class="contact-line"><b>Telegram</b><span>@agrodirect_uz</span></div>
-          <div class="contact-line"><b>Phone</b><span>+998 90 000 00 00</span></div>
+          <div class="contact-line"><b>Telefon</b><span>+998 90 000 00 00</span></div>
           <div class="contact-line"><b>Email</b><span>info@agrodirect.uz</span></div>
           <div class="contact-line"><b>Hudud</b><span>O‘zbekiston</span></div>
         </div>
-        <div class="contact-box">
-          <h3>Kelajak rejasi</h3>
-          <div class="meta" style="margin-top:8px">
-            Backend, login, seller cabinet, buyer cabinet, real order, image upload, Telegram bot va analitika qo‘shiladi.
-          </div>
-          <div style="margin-top:14px" class="pill-row">
+        <div class="card contact-box">
+          <h3 class="panel-title">Kelajak rejasi</h3>
+          <p class="panel-sub">Backend, login, seller cabinet, buyer cabinet, real order, image upload, Telegram bot va analitika qo‘shiladi.</p>
+          <div class="pill-row">
             <span class="pill">Roadmap</span>
             <span class="pill">MVP</span>
             <span class="pill">Verified</span>
             <span class="pill">Logistics</span>
+            <span class="pill">SEO</span>
           </div>
-          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <div class="spacer"></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="openModal('productModal')">Mahsulot qo‘shish</button>
             <button class="btn btn-light" onclick="openModal('orderModal')">Buyurtma berish</button>
+            <button class="btn btn-soft" onclick="openThemeGuide()">UI reja</button>
           </div>
         </div>
       </div>
     </section>
 
-    <footer class="footer">
+    <section class="section reveal" id="features-table">
+      <div class="section-head">
+        <div class="title-wrap">
+          <h2 class="section-title">Features jadvali</h2>
+          <p class="section-sub">Qaysi funksiyalar bor, qaysi biri keyin qo‘shilishi aniq ko‘rinsin.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Bo‘lim</th><th>Holat</th><th>Izoh</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Hero</td><td>Yakunlangan</td><td>Kuchli intro, CTA, stats</td></tr>
+            <tr><td>Market</td><td>Yakunlangan</td><td>Search, filter, sort, verified</td></tr>
+            <tr><td>FAQ</td><td>Yakunlangan</td><td>Accordion animatsiya bilan</td></tr>
+            <tr><td>Admin panel</td><td>Demo</td><td>Queue va tasdiqlash flow</td></tr>
+            <tr><td>Backend</td><td>Keyin</td><td>Auth, DB, API</td></tr>
+            <tr><td>Domain</td><td>Keyin</td><td>Custom domain va SEO</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section reveal" id="roadmap">
+      <div class="section-head">
+        <div class="title-wrap">
+          <h2 class="section-title">Roadmap</h2>
+          <p class="section-sub">Bir kunda hammasini emas, lekin bosqichma-bosqich kuchaytirish uchun aniq yo‘l xaritasi.</p>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card feature"><div class="icon">1</div><div><h3>MVP</h3><p>Hozirgi landing + market + FAQ + demo order.</p></div></div>
+        <div class="card feature"><div class="icon">2</div><div><h3>Backend</h3><p>Login, database, product CRUD, image upload.</p></div></div>
+        <div class="card feature"><div class="icon">3</div><div><h3>Scale</h3><p>Domain, SEO, analytics, payment, real users.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="tech">
+      <div class="section-head">
+        <div class="title-wrap">
+          <h2 class="section-title">Tech stack ikonkalari</h2>
+          <p class="section-sub">Bu single-file versiya: HTML, CSS, JavaScript va GitHub Pages uchun tayyor.</p>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card feature"><div class="icon">🧱</div><div><h3>HTML5</h3><p>Semantik struktura va accessibility uchun.</p></div></div>
+        <div class="card feature"><div class="icon">🎨</div><div><h3>CSS3</h3><p>Gradient, glassmorphism, card, animation.</p></div></div>
+        <div class="card feature"><div class="icon">⚙️</div><div><h3>JavaScript</h3><p>FAQ, filter, search, sort, modal va toast.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="testimonials">
+      <div class="section-head">
+        <div class="title-wrap">
+          <h2 class="section-title">Mijoz fikrlari</h2>
+          <p class="section-sub">Bu bo‘lim saytga real platforma hissi qo‘shadi. Xaridor ishonchini oshiradigan ijtimoiy dalillar juda muhim.</p>
+        </div>
+      </div>
+      <div class="quote-grid">
+        <div class="quote">
+          <div class="quote-head"><div><h4>Nur Agro Farm</h4><small>Verified seller</small></div><div class="stars-row">★★★★★</div></div>
+          <p class="section-sub">Tez buyurtma va katta product cardlar bizga professional platforma taassurotini beradi. Xaridor bilan aloqa ham juda tushunarli.</p>
+        </div>
+        <div class="quote">
+          <div class="quote-head"><div><h4>Madina Market</h4><small>Xaridor</small></div><div class="stars-row">★★★★★</div></div>
+          <p class="section-sub">Qidiruv va filter ishlagani uchun kerakli mahsulotni topish oson. Sayt oddiy emas, haqiqiy marketplace ko‘rinadi.</p>
+        </div>
+        <div class="quote">
+          <div class="quote-head"><div><h4>Agro Timur</h4><small>Sotuvchi</small></div><div class="stars-row">★★★★★</div></div>
+          <p class="section-sub">FAQ, admin panel va verified badge bo‘limlari platformani kattaroq ko‘rsatadi. Shuni biznesga aylantirish mumkin.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="newsletter">
+      <div class="newsletter">
+        <div class="card newsletter-card">
+          <h3 class="panel-title">Yangiliklarga yoziling</h3>
+          <p class="panel-sub">Yangi sellerlar, promo takliflar va platforma yangilanishlarini email orqali yuborish uchun demo blok.</p>
+          <form class="newsletter-form" id="newsletterForm">
+            <input class="input" type="email" required placeholder="Email manzilingiz" name="email" />
+            <button class="btn btn-primary" type="submit">Yuborish</button>
+          </form>
+          <div class="newsletter-note">Bu demo formadir. Keyingi bosqichda backend ulab, real newsletter qilish mumkin.</div>
+        </div>
+        <div class="card newsletter-card">
+          <h3 class="panel-title">Nega bu kuchliroq?</h3>
+          <p class="panel-sub">Fonda blur, marquee, trust bar, testimonial va professional sectionlar bor. Bu ko‘rinish oddiy prezentatsiya emas, real startup mahsuloti taassurotini beradi.</p>
+          <div class="pill-row">
+            <span class="pill">Premium design</span>
+            <span class="pill">Trust signals</span>
+            <span class="pill">Fast UX</span>
+            <span class="pill">Responsive</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer reveal">
       <div class="footer-inner">
         <div>
-          <strong>AgroDirect Uz</strong><br />
-          <small>Ishonchli agro marketplace prototipi</small>
+          <strong style="font-size:20px">AgroDirect Uz</strong><br />
+          <small>Ishonchli agro marketplace prototipi • premium landing page</small>
         </div>
-        <small>© 2026 AgroDirect Uz. All rights reserved.</small>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="pill" href="#about">Biz haqimizda</a>
+          <a class="pill" href="#market">Bozor</a>
+          <a class="pill" href="#contact">Kontakt</a>
+        </div>
       </div>
     </footer>
   </main>
+
+  <button class="backtop" id="backTop" onclick="document.querySelector('header').scrollIntoView({behavior:'smooth'})">↑</button>
 
   <div class="floating">
     <button class="fab" title="Mahsulot qo‘shish" onclick="openModal('productModal')">＋</button>
     <button class="fab" title="Buyurtma berish" onclick="openModal('orderModal')">✎</button>
   </div>
 
-  <div class="modal-backdrop" id="productModal">
+  <div class="modal-backdrop" id="productModal" aria-hidden="true">
     <div class="modal">
       <div class="modal-head">
         <h2>Mahsulot qo‘shish</h2>
@@ -884,59 +763,24 @@
       </div>
       <form class="form" id="productForm">
         <div class="form-grid">
-          <div>
-            <label>Mahsulot nomi</label>
-            <input class="input" required name="name" placeholder="Pomidor" />
-          </div>
-          <div>
-            <label>Seller nomi</label>
-            <input class="input" required name="seller" placeholder="Nur Agro Farm" />
-          </div>
-          <div>
-            <label>Kategoriya</label>
-            <input class="input" required name="category" placeholder="Sabzavot" />
-          </div>
-          <div>
-            <label>Hudud</label>
-            <input class="input" required name="region" placeholder="Samarqand" />
-          </div>
-          <div>
-            <label>Narx</label>
-            <input class="input" required type="number" name="price" placeholder="8200" />
-          </div>
-          <div>
-            <label>Birlik</label>
-            <input class="input" required name="unit" placeholder="kg" />
-          </div>
-          <div>
-            <label>Miqdor</label>
-            <input class="input" required type="number" name="stock" placeholder="1200" />
-          </div>
-          <div>
-            <label>Reyting</label>
-            <input class="input" required type="number" step="0.1" min="1" max="5" name="rating" placeholder="4.8" />
-          </div>
-          <div>
-            <label>Sifat</label>
-            <input class="input" required name="quality" placeholder="Premium" />
-          </div>
-          <div>
-            <label>Yetkazish</label>
-            <input class="input" required name="delivery" placeholder="24 soat ichida" />
-          </div>
-          <div class="full check">
-            <input type="checkbox" name="verified" id="verified" />
-            <label for="verified" style="margin:0">Verified seller sifatida belgilash</label>
-          </div>
-          <div class="full">
-            <button class="btn btn-primary" type="submit" style="width:100%">Saqlash</button>
-          </div>
+          <div><label>Mahsulot nomi</label><input class="input" required name="name" placeholder="Pomidor" /></div>
+          <div><label>Seller nomi</label><input class="input" required name="seller" placeholder="Nur Agro Farm" /></div>
+          <div><label>Kategoriya</label><input class="input" required name="category" placeholder="Sabzavot" /></div>
+          <div><label>Hudud</label><input class="input" required name="region" placeholder="Samarqand" /></div>
+          <div><label>Narx</label><input class="input" required type="number" name="price" placeholder="8200" /></div>
+          <div><label>Birlik</label><input class="input" required name="unit" placeholder="kg" /></div>
+          <div><label>Miqdor</label><input class="input" required type="number" name="stock" placeholder="1200" /></div>
+          <div><label>Reyting</label><input class="input" required type="number" step="0.1" min="1" max="5" name="rating" placeholder="4.8" /></div>
+          <div><label>Sifat</label><input class="input" required name="quality" placeholder="Premium" /></div>
+          <div><label>Yetkazish</label><input class="input" required name="delivery" placeholder="24 soat ichida" /></div>
+          <div class="full check"><input type="checkbox" name="verified" id="verified"><label for="verified" style="margin:0">Verified seller sifatida belgilash</label></div>
+          <div class="full"><button class="btn btn-primary" type="submit" style="width:100%">Saqlash</button></div>
         </div>
       </form>
     </div>
   </div>
 
-  <div class="modal-backdrop" id="orderModal">
+  <div class="modal-backdrop" id="orderModal" aria-hidden="true">
     <div class="modal">
       <div class="modal-head">
         <h2>Buyurtma berish</h2>
@@ -944,29 +788,12 @@
       </div>
       <form class="form" id="orderForm">
         <div class="form-grid">
-          <div>
-            <label>Ism</label>
-            <input class="input" required name="buyerName" placeholder="Javohir" />
-          </div>
-          <div>
-            <label>Telefon</label>
-            <input class="input" required name="contact" placeholder="+998..." />
-          </div>
-          <div>
-            <label>Mahsulot</label>
-            <input class="input" required name="product" placeholder="Pomidor" />
-          </div>
-          <div>
-            <label>Miqdor</label>
-            <input class="input" required type="number" name="qty" placeholder="50" />
-          </div>
-          <div class="full">
-            <label>Izoh</label>
-            <textarea class="input" name="note" rows="4" placeholder="Qachon kerak, qayerga yetkaziladi..."></textarea>
-          </div>
-          <div class="full">
-            <button class="btn btn-dark" type="submit" style="width:100%">Order yuborish</button>
-          </div>
+          <div><label>Ism</label><input class="input" required name="buyerName" placeholder="Javohir" /></div>
+          <div><label>Telefon</label><input class="input" required name="contact" placeholder="+998..." /></div>
+          <div><label>Mahsulot</label><input class="input" required name="product" placeholder="Pomidor" /></div>
+          <div><label>Miqdor</label><input class="input" required type="number" name="qty" placeholder="50" /></div>
+          <div class="full"><label>Izoh</label><textarea class="input" name="note" rows="4" placeholder="Qachon kerak, qayerga yetkaziladi..."></textarea></div>
+          <div class="full"><button class="btn btn-dark" type="submit" style="width:100%">Order yuborish</button></div>
         </div>
       </form>
     </div>
@@ -975,7 +802,7 @@
   <div class="toast" id="toast">Saved</div>
 
   <script>
-    const defaultProducts = [
+    const productsSeed = [
       { id: 1, name: "Pomidor", category: "Sabzavot", price: 8200, unit: "kg", region: "Samarqand", seller: "Nur Agro Farm", rating: 4.9, verified: true, badge: "Top Seller", stock: 1200, delivery: "24 soat ichida", quality: "Premium", emoji:"🍅" },
       { id: 2, name: "Kartoshka", category: "Sabzavot", price: 4500, unit: "kg", region: "Jizzax", seller: "Agro Timur", rating: 4.7, verified: true, badge: "Verified Seller", stock: 5000, delivery: "2 kunda", quality: "Standart", emoji:"🥔" },
       { id: 3, name: "Olma", category: "Meva", price: 11000, unit: "kg", region: "Andijon", seller: "Green Valley", rating: 4.8, verified: true, badge: "Trusted Farmer", stock: 2400, delivery: "Bugun", quality: "Premium", emoji:"🍎" },
@@ -983,21 +810,25 @@
       { id: 5, name: "Sut", category: "Sut mahsuloti", price: 6500, unit: "litr", region: "Toshkent vil.", seller: "Milk House", rating: 4.6, verified: true, badge: "Fast Response", stock: 800, delivery: "Same day", quality: "Fresh", emoji:"🥛" },
       { id: 6, name: "Bodring", category: "Sabzavot", price: 7200, unit: "kg", region: "Namangan", seller: "Fergana Fresh", rating: 4.9, verified: true, badge: "Top Seller", stock: 1600, delivery: "24 soat ichida", quality: "Premium", emoji:"🥒" }
     ];
-
-    const defaultOrders = [
+    const ordersSeed = [
       { buyerName: "Dilshod", product: "Pomidor", qty: 50, status: "Kutilyapti", note: "Restoran uchun", contact: "+998901112233" },
       { buyerName: "Madina", product: "Olma", qty: 20, status: "Tasdiqlangan", note: "Do‘kon uchun", contact: "+998931112233" }
     ];
 
-    const LS_PRODUCTS = "agrodirect_products_v3";
-    const LS_ORDERS = "agrodirect_orders_v3";
+    const LS_PRODUCTS = "agrodirect_products_v6";
+    const LS_ORDERS = "agrodirect_orders_v6";
+    const LS_THEME = "agrodirect_theme_v2";
+    const LS_FAVORITES = "agrodirect_favorites_v2";
+    const SITE_LINK = "https://javohirusmonov727-hue.github.io/agrodirect-uz/";
 
-    let products = loadData(LS_PRODUCTS, defaultProducts);
-    let orders = loadData(LS_ORDERS, defaultOrders);
+    let products = loadData(LS_PRODUCTS, productsSeed);
+    let orders = loadData(LS_ORDERS, ordersSeed);
+    let favorites = loadData(LS_FAVORITES, []);
     let mobileMenuOpen = false;
 
     const productEl = document.getElementById("products");
     const adminQueueEl = document.getElementById("adminQueue");
+    const toastEl = document.getElementById("toast");
     const sellerCountEl = document.getElementById("sellerCount");
     const productCountEl = document.getElementById("productCount");
     const verifiedCountEl = document.getElementById("verifiedCount");
@@ -1005,22 +836,28 @@
     const categoryFilterEl = document.getElementById("categoryFilter");
     const sortFilterEl = document.getElementById("sortFilter");
     const verifiedOnlyEl = document.getElementById("verifiedOnly");
-    const toastEl = document.getElementById("toast");
+    const backTop = document.getElementById("backTop");
+
+    initTheme();
+    renderProducts();
+    bindFaqInitial();
+    observeReveal();
+    updateActiveNav();
 
     function loadData(key, fallback){
-      const raw = localStorage.getItem(key);
-      if(!raw) return fallback;
-      try { return JSON.parse(raw); } catch(e) { return fallback; }
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch {
+        return fallback;
+      }
     }
-
     function saveData(){
       localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
       localStorage.setItem(LS_ORDERS, JSON.stringify(orders));
+      localStorage.setItem(LS_FAVORITES, JSON.stringify(favorites));
     }
-
-    function money(n){
-      return new Intl.NumberFormat("uz-UZ").format(n);
-    }
+    function money(value){ return new Intl.NumberFormat("uz-UZ").format(value); }
 
     function showToast(message){
       toastEl.textContent = message;
@@ -1029,65 +866,81 @@
       window.toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
     }
 
+    function initTheme(){
+      const saved = localStorage.getItem(LS_THEME);
+      if(saved === "dark" || saved === "light") document.documentElement.dataset.theme = saved;
+    }
+    function toggleTheme(){
+      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(LS_THEME, next);
+      showToast(next === "dark" ? "Qorong‘i rejim yoqildi" : "Yorug‘ rejim yoqildi");
+    }
+
+    function toggleMobileMenu(){
+      mobileMenuOpen = !mobileMenuOpen;
+      document.getElementById("mobileMenu").classList.toggle("open", mobileMenuOpen);
+    }
+    function copySiteLink(){
+      navigator.clipboard?.writeText(SITE_LINK).then(() => showToast("Sayt linki nusxa qilindi")).catch(() => showToast("Link nusxa qilib bo‘lmadi"));
+    }
+    function openThemeGuide(){
+      alert("UI reja:\n1) Hero\n2) Market\n3) FAQ\n4) Footer\n5) Backend keyin\n\nHozirgi sayt premium landing page bo‘lib turadi.");
+    }
+
     function uniqueCategories(){
       const current = categoryFilterEl.value || "All";
       const cats = ["All", ...new Set(products.map(p => p.category))];
       categoryFilterEl.innerHTML = cats.map(c => `<option value="${c}">${c === "All" ? "Barcha kategoriyalar" : c}</option>`).join("");
-      if(cats.includes(current)) categoryFilterEl.value = current;
-      else categoryFilterEl.value = "All";
+      categoryFilterEl.value = cats.includes(current) ? current : "All";
     }
-
     function getFilteredProducts(){
       const q = document.getElementById("search").value.trim().toLowerCase();
       const cat = categoryFilterEl.value;
       const sort = sortFilterEl.value;
       const verifiedOnly = verifiedOnlyEl.checked;
-
       let list = products.filter(p => {
         const text = `${p.name} ${p.category} ${p.region} ${p.seller}`.toLowerCase();
-        const matchQ = text.includes(q);
-        const matchC = cat === "All" || p.category === cat;
-        const matchV = !verifiedOnly || p.verified;
-        return matchQ && matchC && matchV;
+        return text.includes(q) && (cat === "All" || p.category === cat) && (!verifiedOnly || p.verified);
       });
-
-      if(sort === "price-asc") list.sort((a,b) => a.price - b.price);
-      if(sort === "price-desc") list.sort((a,b) => b.price - a.price);
-      if(sort === "rating-desc") list.sort((a,b) => b.rating - a.rating);
-      if(sort === "featured") list.sort((a,b) => Number(b.verified) - Number(a.verified) || b.rating - a.rating);
-
+      if(sort === "price-asc") list.sort((a,b)=>a.price-b.price);
+      if(sort === "price-desc") list.sort((a,b)=>b.price-a.price);
+      if(sort === "rating-desc") list.sort((a,b)=>b.rating-a.rating);
+      if(sort === "featured") list.sort((a,b)=> Number(b.verified)-Number(a.verified) || b.rating-a.rating);
       return list;
     }
-
+    function animateNumber(el, target, duration = 900){
+      const start = Number(el.textContent || 0);
+      const diff = target - start;
+      const t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min((now - t0) / duration, 1);
+        const value = Math.round(start + diff * (1 - Math.pow(1 - p, 3)));
+        el.textContent = value;
+        if(p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
     function renderStats(){
-      sellerCountEl.textContent = new Set(products.map(p => p.seller)).size;
-      productCountEl.textContent = products.length;
-      verifiedCountEl.textContent = products.filter(p => p.verified).length;
-      orderCountEl.textContent = orders.length;
+      animateNumber(sellerCountEl, new Set(products.map(p => p.seller)).size);
+      animateNumber(productCountEl, products.length);
+      animateNumber(verifiedCountEl, products.filter(p => p.verified).length);
+      animateNumber(orderCountEl, orders.length);
     }
-
-    function isFavorite(id){
-      return favorites.includes(id);
-    }
-
+    function isFavorite(id){ return favorites.includes(id); }
     function toggleFavorite(id){
-      if(isFavorite(id)) favorites = favorites.filter(v => v !== id);
-      else favorites.unshift(id);
-      localStorage.setItem(LS_FAVORITES, JSON.stringify(favorites));
+      favorites = isFavorite(id) ? favorites.filter(x => x !== id) : [id, ...favorites];
+      saveData();
       renderProducts();
-      showToast(isFavorite(id) ? "Saqlandi" : "Favorites’dan olindi");
+      showToast(isFavorite(id) ? "Favoritga qo‘shildi" : "Favoritdan olib tashlandi");
     }
-
-    const LS_FAVORITES = "agrodirect_favorites_v3";
-    let favorites = loadData(LS_FAVORITES, []);
 
     function renderProducts(){
       uniqueCategories();
       renderStats();
-
       const filtered = getFilteredProducts();
       productEl.innerHTML = filtered.length ? filtered.map(p => `
-        <article class="card product">
+        <article class="card product reveal">
           <div class="product-top">
             <div>
               <h3>${p.name}</h3>
@@ -1095,23 +948,14 @@
             </div>
             <span class="tag ${p.verified ? "" : "gray"}">${p.badge}</span>
           </div>
-
-          <div class="image">
-            <div class="fruit">${p.emoji || "🌿"}</div>
-            <small>${p.verified ? "Verified" : "New"}</small>
+          <div class="visual">
+            <div class="emoji">${p.emoji || "🌿"}</div>
+            <div class="chip">${p.verified ? "Verified" : "Pending"}</div>
           </div>
-
           <div class="price">
-            <div>
-              <span>Narx</span><br>
-              <strong>${money(p.price)} so‘m/${p.unit}</strong>
-            </div>
-            <div style="text-align:right">
-              <div class="stars">★ ${p.rating}</div>
-              <span>${p.quality}</span>
-            </div>
+            <div><div class="meta" style="margin:0">Narx</div><strong>${money(p.price)} so‘m/${p.unit}</strong></div>
+            <div style="text-align:right"><div class="stars">★ ${p.rating}</div><div class="meta" style="margin:0">${p.quality}</div></div>
           </div>
-
           <div class="product-body">
             <div class="product-grid">
               <div class="mini-card"><small>Seller</small><strong>${p.seller}</strong></div>
@@ -1126,149 +970,173 @@
             </div>
           </div>
         </article>
-      `).join("") : `
-        <div class="empty" style="grid-column:1/-1">Hech narsa topilmadi. Qidiruv yoki filter ni o‘zgartiring.</div>
-      `;
-
+      `).join("") : `<div class="card panel" style="grid-column:1/-1"><p class="section-sub">Hech narsa topilmadi. Qidiruv yoki filter ni o‘zgartiring.</p></div>`;
       renderAdmin();
-      renderOrders();
+      observeReveal();
     }
 
     function renderAdmin(){
       const unverified = products.filter(p => !p.verified);
       adminQueueEl.innerHTML = unverified.length ? unverified.map(p => `
-        <div class="seller">
+        <div class="seller reveal">
           <div class="seller-left">
             <div class="avatar">${(p.seller || "A")[0].toUpperCase()}</div>
-            <div>
-              <h4>${p.seller}</h4>
-              <small>${p.name} • ${p.region} • ${money(p.price)} so‘m/${p.unit}</small>
-            </div>
+            <div><h4>${p.seller}</h4><small>${p.name} • ${p.region} • ${money(p.price)} so‘m/${p.unit}</small></div>
           </div>
           <button class="btn btn-primary" onclick="approveSeller(${p.id})">Approve</button>
         </div>
-      `).join("") : `
-        <div class="empty">Queue bo‘sh. Hamma sellerlar verified.</div>
-      `;
+      `).join("") : `<div class="card panel"><p class="section-sub">Queue bo‘sh. Hamma sellerlar verified.</p></div>`;
     }
-
-    function renderOrders(){
-      const container = document.getElementById("orders");
-      if(!container) return;
-      container.innerHTML = orders.length ? orders.map(o => `
-        <div class="seller">
-          <div>
-            <h4 style="margin:0 0 4px">${o.buyerName} — ${o.product}</h4>
-            <small>${o.contact} • ${o.qty} • ${o.note || "Izoh yo‘q"}</small>
-          </div>
-          <span class="tag ${o.status === "Tasdiqlangan" ? "" : "gray"}">${o.status}</span>
-        </div>
-      `).join("") : `<div class="empty">Hali order yo‘q. Buyurtmalar shu yerda ko‘rinadi.</div>`;
-    }
-
-    function selectProduct(id){
-      const p = products.find(x => x.id === id);
-      if(!p) return;
-      alert(
-        `${p.name}\nSeller: ${p.seller}\nHudud: ${p.region}\nNarx: ${money(p.price)} so'm/${p.unit}\nReyting: ${p.rating}\nVerified: ${p.verified ? "Ha" : "Yo'q"}`
-      );
-    }
-
-    function prefillOrder(name){
-      openModal("orderModal");
-      document.querySelector("#orderForm [name='product']").value = name;
-      showToast("Buyurtma formasi tayyor");
-    }
-
     function approveSeller(id){
       products = products.map(p => p.id === id ? {...p, verified:true, badge:"Verified Seller"} : p);
       saveData();
       renderProducts();
       showToast("Seller verified qilindi");
     }
+    function selectProduct(id){
+      const p = products.find(x => x.id === id);
+      if(!p) return;
+      alert(`${p.name}\nSeller: ${p.seller}\nHudud: ${p.region}\nNarx: ${money(p.price)} so'm/${p.unit}\nReyting: ${p.rating}\nVerified: ${p.verified ? "Ha" : "Yo'q"}`);
+    }
+    function prefillOrder(name){
+      openModal('orderModal');
+      document.querySelector("#orderForm [name='product']").value = name;
+      showToast("Buyurtma formasi tayyor");
+    }
 
     function openModal(id){
-      document.getElementById(id).style.display = "flex";
+      const node = document.getElementById(id);
+      node.style.display = "flex";
       document.body.style.overflow = "hidden";
     }
     function closeModal(id){
-      document.getElementById(id).style.display = "none";
+      const node = document.getElementById(id);
+      node.style.display = "none";
       document.body.style.overflow = "";
     }
-
     function toggleFaq(btn){
-      const item = btn.closest(".faq-item");
-      const open = item.classList.toggle("open");
-      btn.querySelector("span").textContent = open ? "−" : "+";
+      const item = btn.closest('.faq-item');
+      const open = item.classList.toggle('open');
+      const answer = item.querySelector('.faq-a');
+      const icon = item.querySelector('.faq-icon');
+      if(open){ answer.style.maxHeight = answer.scrollHeight + 'px'; icon.textContent = '×'; }
+      else { answer.style.maxHeight = null; icon.textContent = '+'; }
+    }
+    function bindFaqInitial(){
+      document.querySelectorAll('.faq-item.open .faq-a').forEach(a => a.style.maxHeight = a.scrollHeight + 'px');
+    }
+    function scrollSpy(){
+      const sections = [...document.querySelectorAll('section[id]')];
+      const links = [...document.querySelectorAll('.menu a')];
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if(top <= 140) current = sec.id;
+      });
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${current}`));
+    }
+    function updateActiveNav(){
+      window.addEventListener('scroll', () => {
+        scrollSpy();
+        backTop.classList.toggle('show', window.scrollY > 500);
+      }, {passive:true});
     }
 
-    function toggleMobileMenu(){
-      mobileMenuOpen = !mobileMenuOpen;
-      document.getElementById("mobileMenu").classList.toggle("open", mobileMenuOpen);
+    function observeReveal(){
+      const items = document.querySelectorAll('.reveal:not(.visible)');
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, {threshold:.12});
+      items.forEach(item => io.observe(item));
     }
 
-    document.getElementById("productForm").addEventListener("submit", function(e){
+    document.getElementById('productForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const fd = new FormData(e.target);
-      const newProduct = {
+      products.unshift({
         id: Date.now(),
-        name: fd.get("name"),
-        seller: fd.get("seller"),
-        category: fd.get("category"),
-        region: fd.get("region"),
-        price: Number(fd.get("price")),
-        unit: fd.get("unit"),
-        stock: Number(fd.get("stock")),
-        rating: Number(fd.get("rating")),
-        quality: fd.get("quality"),
-        delivery: fd.get("delivery"),
-        verified: fd.get("verified") === "on",
-        badge: fd.get("verified") === "on" ? "Verified Seller" : "New Seller",
-        emoji: "🌿"
-      };
-      products.unshift(newProduct);
+        name: fd.get('name'),
+        seller: fd.get('seller'),
+        category: fd.get('category'),
+        region: fd.get('region'),
+        price: Number(fd.get('price')),
+        unit: fd.get('unit'),
+        stock: Number(fd.get('stock')),
+        rating: Number(fd.get('rating')),
+        quality: fd.get('quality'),
+        delivery: fd.get('delivery'),
+        verified: fd.get('verified') === 'on',
+        badge: fd.get('verified') === 'on' ? 'Verified Seller' : 'New Seller',
+        emoji: '🌿'
+      });
       saveData();
       e.target.reset();
-      closeModal("productModal");
+      closeModal('productModal');
       renderProducts();
-      showToast("Mahsulot qo‘shildi");
+      showToast('Mahsulot qo‘shildi');
     });
 
-    document.getElementById("orderForm").addEventListener("submit", function(e){
+    document.getElementById('orderForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const fd = new FormData(e.target);
       orders.unshift({
-        buyerName: fd.get("buyerName"),
-        contact: fd.get("contact"),
-        product: fd.get("product"),
-        qty: Number(fd.get("qty")),
-        note: fd.get("note"),
-        status: "Kutilyapti"
+        buyerName: fd.get('buyerName'),
+        contact: fd.get('contact'),
+        product: fd.get('product'),
+        qty: Number(fd.get('qty')),
+        note: fd.get('note'),
+        status: 'Kutilyapti'
       });
       saveData();
       e.target.reset();
-      closeModal("orderModal");
-      renderProducts();
-      showToast("Order yuborildi");
+      closeModal('orderModal');
+      renderStats();
+      showToast('Order yuborildi');
     });
 
-    window.addEventListener("keydown", (e) => {
-      if(e.key === "Escape"){
-        closeModal("productModal");
-        closeModal("orderModal");
+    const newsletterForm = document.getElementById('newsletterForm');
+    if(newsletterForm){
+      newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const email = String(fd.get('email') || '').trim();
+        if(!email) return;
+        const saved = loadData('agrodirect_newsletter_v1', []);
+        if(!saved.includes(email)) saved.push(email);
+        localStorage.setItem('agrodirect_newsletter_v1', JSON.stringify(saved));
+        e.target.reset();
+        showToast('Email saqlandi');
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        closeModal('productModal');
+        closeModal('orderModal');
         mobileMenuOpen = false;
-        document.getElementById("mobileMenu").classList.remove("open");
+        document.getElementById('mobileMenu').classList.remove('open');
       }
     });
 
-    document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
-      backdrop.addEventListener("click", (e) => {
-        if(e.target === backdrop) backdrop.style.display = "none";
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.addEventListener('click', (e) => {
+        if(e.target === backdrop) backdrop.style.display = 'none';
       });
     });
 
-    renderProducts();
-    showToast("AgroDirect Uz yuklandi");
+    function copySiteLink(){
+      navigator.clipboard?.writeText(SITE_LINK).then(() => showToast('Sayt linki nusxa qilindi')).catch(() => showToast('Link nusxa qilib bo‘lmadi'));
+    }
+
+    window.addEventListener('load', () => {
+      showToast('AgroDirect Uz yuklandi');
+      observeReveal();
+    });
   </script>
 </body>
 </html>
